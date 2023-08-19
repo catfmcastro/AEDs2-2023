@@ -11,7 +11,9 @@ AEDs II
 
 package AEDS2_2023.u00_exercicios_CatarinaCastro.u00l_intro_OO.ex1;
 
-public class Lixao {
+import java.util.*;
+
+public class LixaoRetangulo {
     public static void main(String[] args){
         // Declaracao de objetos e de variaveis
         Retangulo r1 = new Retangulo(10, 4);

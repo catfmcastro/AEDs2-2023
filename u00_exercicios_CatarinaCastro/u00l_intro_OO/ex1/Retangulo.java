@@ -11,7 +11,8 @@ AEDs II
 
 package AEDS2_2023.u00_exercicios_CatarinaCastro.u00l_intro_OO.ex1;
 
-public class Retangulo {
+
+class Retangulo {
    // Declaração de atributos
    private double base;
    private double altura;
