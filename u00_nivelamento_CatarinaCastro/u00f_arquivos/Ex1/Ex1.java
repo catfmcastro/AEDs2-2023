@@ -11,7 +11,9 @@ Catarina F. M. Castro - 803531
 AEDs II
 */
 
-public class ex1 {
+package AEDS2_2023;
+
+public class Ex1 {
     public static void main(String[] args){
         Arq.openWrite("arquivo.txt");
 
