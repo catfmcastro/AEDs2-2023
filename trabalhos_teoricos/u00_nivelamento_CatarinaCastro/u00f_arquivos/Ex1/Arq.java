@@ -1,4 +1,8 @@
+<<<<<<< HEAD:u00_exercicios_CatarinaCastro/u00f_arquivos/Arq.java
 package u00f_arquivos;
+=======
+package Ex1;
+>>>>>>> af3569b26e5ca024a83cfefe00a557c92d5209c3:u00_nivelamento_CatarinaCastro/u00f_arquivos/Ex1/Arq.java
 
 import java.io.*;
 import java.util.Formatter;
@@ -6,7 +10,10 @@ import java.util.Scanner;
 import java.io.File;
 import java.nio.charset.*;
 
+<<<<<<< HEAD:u00_exercicios_CatarinaCastro/u00f_arquivos/Arq.java
 
+=======
+>>>>>>> af3569b26e5ca024a83cfefe00a557c92d5209c3:u00_nivelamento_CatarinaCastro/u00f_arquivos/Ex1/Arq.java
 public class Arq
 {
    private static String nomeArquivo = "";
