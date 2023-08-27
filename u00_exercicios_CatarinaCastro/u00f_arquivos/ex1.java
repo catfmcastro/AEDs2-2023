@@ -1,24 +1,24 @@
-import java.util.Scanner;
-import java.util.Formatter;
-import java.io.*;
-
 /*
 Unidade 00 - Nivelamento
-Exercícios de Arquivos
+Arquivos
 
 Catarina F. M. Castro - 803531
 
 AEDs II
 */
 
-public class ex1 {
-    public static void main(String[] args){
-        Arq.openWrite("arquivo.txt");
+// Manipulação de arquivos utilizando a classe local Arq.java
 
-        Arq.println("Testando o meu primeiro arquivo em Java! :)");
-        Arq.println("1, 2, 3, 4, 5!");
-        Arq.println("Arquivo!!");
+import u00f_arquivos.Arq;
 
+class Ex1 {
+    public static void main (String[] args){
+        Arq.openWrite("exemplo.txt");
+        Arq.println(1);
+        Arq.println(5.3);
+        Arq.println('X');
+        Arq.println(true);
+        Arq.println("Algoritmos");
         Arq.close();
     }
 }
