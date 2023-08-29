@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-public Palindromo{
+public class Palindromo{
 	public boolean isPalindromo(String s){
 		boolean resp = true;
 
