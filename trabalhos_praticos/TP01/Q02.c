@@ -13,7 +13,7 @@
 #include <string.h>
 
 // checa se a palavra é palindromo
-int isPalindromo(char str[50]){
+int isPalindromo(char str[500]){
     // declaracao de variaveis
     int tam = strlen(str); // tamanho da string
 
@@ -29,7 +29,7 @@ int isPalindromo(char str[50]){
 
 int main (void){
     // declaracao de variaveis
-    char str[50];
+    char str[500];
     int resp;
 
     // recebe várias entradas e checa se são palindromos
@@ -41,7 +41,7 @@ int main (void){
         if(strcmp(str, "FIM") == 0){
             break;
         }
-        
+
         // chamada da função
         resp = isPalindromo(str);
 
