@@ -7,9 +7,9 @@
     AEDs II
 */
 
-// Lê uma string e checa se é um palindromo ou não
+// Lê uma string e checa se é um palindromo ou não, em java
 
-//package TP01;
+package TP01;
 
 public class Q01 {
     public static void main(String[] args){
@@ -41,10 +41,10 @@ public class Q01 {
 
             // Imprime o resultado na tela
             if (resp == false){
-                System.out.println("NAO");
+                MyIO.println("NAO");
             }
             else{
-                System.out.println("SIM");
+                MyIO.println("SIM");
             }
         }
     }
