@@ -12,19 +12,30 @@
 package TP01;
 
 public class Q01 {
+    // Método para condição de parada das entradas
+    public static boolean acabou(String s){
+    
+        if(s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M'){
+            return true; // Se input for "FIM", retorna true
+        }
+        else{
+            return false; // Se não, retorna false
+        }
+    }
+
     public static void main(String[] args){
         // Declaracao de variaveis
         boolean resp = true;
         String s = " ";
 
         // Checa se a frase inserida é palindromo
-        while (!(s.equals("FIM"))){
+        while (!(acabou(s))){
             
             // Entrada de String
             s = MyIO.readLine();
 
             // Interrompe o loop se "FIM" for digitado
-            if (s.equals("FIM")){
+            if (acabou(s)){
                 break;
             }
 
