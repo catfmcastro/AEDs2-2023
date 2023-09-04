@@ -28,9 +28,39 @@ public class Q04 {
     public static void main (String[] args){
         // Declaracao de variaveis
         Random gerador = new Random();
-        String str1 = "";
-
         gerador.setSeed(4);
-        System.out.println((char)('a' + (Math.abs(gerador.nextInt()) % 26)));
+        String str1 = "";
+        
+        while(!acabou(str1)){
+            // Declaracao str2
+            String str2 = "";
+
+            // Entrada da String 1
+            str1 = MyIO.readLine();
+
+            // Interrupção do Loop
+            if(acabou(str1)){
+                break;
+            }
+            
+            // Gerador de caractere aleatorio
+            char c1 = (char)('a' + (Math.abs(gerador.nextInt()) % 26));
+
+            // Gerador de caractere aleatorio
+            char c2 = (char)('a' + (Math.abs(gerador.nextInt()) % 26));
+
+            // Preenche str2 com os caracteres trocados
+            for(int i = 0; i<str1.length(); i++){
+                if(str1.charAt(i) == c1){
+                    str2 += c2;
+                }
+                else{
+                    str2 += str1.charAt(i);
+                }
+            }
+
+            MyIO.println(str2);
+        }
+
     }
 }
