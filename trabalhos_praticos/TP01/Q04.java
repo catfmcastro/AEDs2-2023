@@ -26,7 +26,10 @@ public class Q04 {
     }
 
     public static void main (String[] args){
+        // Declaracao de variaveis
         Random gerador = new Random();
+        String str1 = "";
+
         gerador.setSeed(4);
         System.out.println((char)('a' + (Math.abs(gerador.nextInt()) % 26)));
     }
