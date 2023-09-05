@@ -11,11 +11,8 @@
 
 package TP01;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.io.*;
+import java.net.*;
 
 public class Q07 {
     // Método para condição de parada das entradas
@@ -90,7 +87,7 @@ public class Q07 {
             // Converte url em string html
             html = getHtml(endereco);
 
-            for(int j = 0; j+7<html.length(); j++){
+            for(int j = 0; j+6<html.length(); j++){
                 char c = html.charAt(j);
 
                 if(c == 'a'){
@@ -150,14 +147,26 @@ public class Q07 {
                 else if(c == '\u00ea'){
                     eCirc++; // ê
                 }
-                else if(c == ''){
-                    i
+                else if(c == '\u00ee'){
+                    iCirc++; // î
+                }
+                else if(c == '\u00f4'){
+                    oCirc++; // ô
+                }
+                else if(c == '\u00fb'){
+                    uCirc++; // û
+                }
+                else if(c == '\u003c' && c+1 == 'b' && c+2 == 'r' && c+3 == '\u003e'){
+                    br++; // <br>
+                }
+                else if(c == '\u003c' && c+1 == 't' && c+2 == 'a' && c+3 == 'b' && c+4 == 'l' && c+5 == 'e' && c+6 == '\u003e'){
+                    table++; // <table>
                 }
 
             }
 
             // Imprime resultado na tela
-            MyIO.println("a(" + a + ") e(" + e + ") i(" + i + ") o(" + o + ") u(" + u + ") \u00e1(" + aAgu + ") \u00e9(" + eAgu + ") \u00ed(" + iAgu + ") \u00f3(" + oAgu + ") \u00fa(" + uAgu + ") \u00e0(" + aCras + ") \u00e8(" + eCras + ") \u00ec(" + iCras + ") \u00f2(" + oCras + ") \u00f9(" + uCras + ") \u00e3(" + aTil + ") \u00f5(" + oTil + ") \u00e2(" + aCirc + ") \u00ea(" + eCirc + ") î(" + iCirc + ") ô(" + oCirc + ") û(" + uCirc + ") consoante(" + consoantes + ") <br>(" + br + ") <table>(" + table + ")");
+            MyIO.println("a(" + a + ") e(" + e + ") i(" + i + ") o(" + o + ") u(" + u + ") \u00e1(" + aAgu + ") \u00e9(" + eAgu + ") \u00ed(" + iAgu + ") \u00f3(" + oAgu + ") \u00fa(" + uAgu + ") \u00e0(" + aCras + ") \u00e8(" + eCras + ") \u00ec(" + iCras + ") \u00f2(" + oCras + ") \u00f9(" + uCras + ") \u00e3(" + aTil + ") \u00f5(" + oTil + ") \u00e2(" + aCirc + ") \u00ea(" + eCirc + ") \u00ee(" + iCirc + ") \u00f4(" + oCirc + ") \u00fb(" + uCirc + ") consoante(" + consoantes + ") \u003cbr\u003e(" + br + ") \u003ctable\u003e(" + table + ")");
         }
 
     }
