@@ -45,10 +45,7 @@ public class Q06 {
     // Checa se o char é uma consoante
     public static boolean isCharConsoante(char c){
         if(isCharVogal(c)){
-            return false; // char é uma consoante
-        }
-        else if(!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))){
-            return false; // char não é uma letra
+            return false; // char é vogal
         }
         else if(isCharNumero(c)){
             return false; // char é um número
@@ -60,6 +57,7 @@ public class Q06 {
 
     // Checa se a string é composta inteiramente por vogais
     public static boolean isStrVogal(String s){
+        
         // Loop para percorrer a string
         for(int i = 0; i<s.length(); i++){
             if(!(isCharVogal(s.charAt(i)))){
@@ -75,12 +73,12 @@ public class Q06 {
         
         // Loop para percorrer string
         for(int i = 0; i<s.length(); i++){
-            if(isCharVogal(s.charAt(i))){
-                return false;
+            if(!isCharConsoante(s.charAt(i))){
+                return false; // string possui outros caracteres
             }
         }
 
-        return true; // String é composta inteiramente por consoantes
+        return true; // string só possui consoantes
     }
 
     // Checa se a string é um número intero
@@ -97,19 +95,32 @@ public class Q06 {
 
     // Checa se a string é um número real
     public static boolean isStrReal(String s){
+        int temPonto = 0;
+        boolean resp = false;
 
-        for(int i = 0; i<s.length(); i++){
-            if(!isCharNumero(s.charAt(i))){
-                return false; // string possui um char que não é número
+        for (int i = 0; i < s.length(); i++) {
+            if (isCharNumero(s.charAt(i))) {
+                resp = true; // checa se é um número
             }
-            else if(s.charAt(i) != '.'){
-                return false; // string não é um número real
+            else if ((s.charAt(i) == '.' || s.charAt(i) == ',') && temPonto < 1) {
+                // checa se há um ponto ou vírgula
+                temPonto++;
+            }
+            else{
+                return false;
             }
         }
 
-        return true; // string é um número real
+        // se houver apenas um ponto, a string é um número real
+        if(temPonto == 1){
+            resp = true;
+        }
+
+        return resp; // string é um número real
     }
 
+
+    // MÉTODO MAIN
     public static void main(String[] args){
         // Declaração de variáveis
         String str = "";
