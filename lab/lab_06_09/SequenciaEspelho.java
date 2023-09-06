@@ -9,7 +9,7 @@
 
 // Recebe dois números inteiros e imprime a sua sequência espelho
 
-//package lab_06_09;
+package lab_06_09;
 
 import java.util.*;
 
