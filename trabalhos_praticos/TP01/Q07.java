@@ -93,80 +93,80 @@ public class Q07 {
                 if(c == 'a'){
                     a++;
                 }
-                else if(c == 'e'){
+                if(c == 'e'){
                     e++;
                 }
-                else if(c == 'i'){
+                if(c == 'i'){
                     i++;
                 }
-                else if(c == 'o'){
+                if(c == 'o'){
                     o++;
                 }
-                else if(c == 'u'){
+                if(c == 'u'){
                     u++;
                 }
-                else if(c == '\u00e1'){
+                if(c == '\u00e1'){
                     aAgu++; // á
                 }
-                else if(c == '\u00e9'){
+                if(c == '\u00e9'){
                     eAgu++; // é
                 }
-                else if(c == '\u00ed'){
+                if(c == '\u00ed'){
                     iAgu++; // í
                 }
-                else if(c == '\u00f3'){
+                if(c == '\u00f3'){
                     oAgu++; // ó
                 }
-                else if(c == '\u00fa'){
+                if(c == '\u00fa'){
                     uAgu++; // ú
                 }
-                else if(c == '\u00e0'){
+                if(c == '\u00e0'){
                     aCras++; // à
                 }
-                else if(c == '\u00e8'){
+                if(c == '\u00e8'){
                     eCras++; // è
                 }
-                else if(c == '\u00ec'){
+                if(c == '\u00ec'){
                     iCras++; // ì
                 }
-                else if(c == '\u00f2'){
+                if(c == '\u00f2'){
                     oCras++; // ò
                 }
-                else if(c == '\u00f9'){
+                if(c == '\u00f9'){
                     uCras++; // ù
                 }
-                else if(c == '\u00e3'){
+                if(c == '\u00e3'){
                     aTil++; // ã
                 }
-                else if(c == '\u00f5'){
+                if(c == '\u00f5'){
                     oTil++; // õ
                 }
-                else if(c == '\u00e2'){
+                if(c == '\u00e2'){
                     aCirc++; // â
                 }
-                else if(c == '\u00ea'){
+                if(c == '\u00ea'){
                     eCirc++; // ê
                 }
-                else if(c == '\u00ee'){
+                if(c == '\u00ee'){
                     iCirc++; // î
                 }
-                else if(c == '\u00f4'){
+                if(c == '\u00f4'){
                     oCirc++; // ô
                 }
-                else if(c == '\u00fb'){
+                if(c == '\u00fb'){
                     uCirc++; // û
                 }
-                else if(c == '\u003c' && c+1 == 'b' && c+2 == 'r' && c+3 == '\u003e'){
+                if(c == '\u003c' && c+1 == 'b' && c+2 == 'r' && c+3 == '\u003e'){
                     br++; // <br>
                 }
-                else if(c == '\u003c' && c+1 == 't' && c+2 == 'a' && c+3 == 'b' && c+4 == 'l' && c+5 == 'e' && c+6 == '\u003e'){
+                if(c == '\u003c' && c+1 == 't' && c+2 == 'a' && c+3 == 'b' && c+4 == 'l' && c+5 == 'e' && c+6 == '\u003e'){
                     table++; // <table>
                 }
 
             }
 
             // Imprime resultado na tela
-            MyIO.println("a(" + a + ") e(" + e + ") i(" + i + ") o(" + o + ") u(" + u + ") \u00e1(" + aAgu + ") \u00e9(" + eAgu + ") \u00ed(" + iAgu + ") \u00f3(" + oAgu + ") \u00fa(" + uAgu + ") \u00e0(" + aCras + ") \u00e8(" + eCras + ") \u00ec(" + iCras + ") \u00f2(" + oCras + ") \u00f9(" + uCras + ") \u00e3(" + aTil + ") \u00f5(" + oTil + ") \u00e2(" + aCirc + ") \u00ea(" + eCirc + ") \u00ee(" + iCirc + ") \u00f4(" + oCirc + ") \u00fb(" + uCirc + ") consoante(" + consoantes + ") \u003cbr\u003e(" + br + ") \u003ctable\u003e(" + table + ")");
+            MyIO.println("a(" + a + ") e(" + e + ") i(" + i + ") o(" + o + ") u(" + u + ") á(" + aAgu + ") é(" + eAgu + ") í(" + iAgu + ") ó(" + oAgu + ") ú(" + uAgu + ") à(" + aCras + ") è(" + eCras + ") ì(" + iCras + ") ò(" + oCras + ") ù(" + uCras + ") ã(" + aTil + ") õ(" + oTil + ") â(" + aCirc + ") ê(" + eCirc + ") î(" + iCirc + ") ô(" + oCirc + ") û(" + uCirc + ") consoante(" + consoantes + ") \u003cbr\u003e(" + br + ") \u003ctable\u003e(" + table + ")");
         }
 
     }
