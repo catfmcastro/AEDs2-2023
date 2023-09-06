@@ -1,5 +1,5 @@
 /*
-    Trabalho Pr\u00e1tico 01
+    Trabalho Prático 01
 
     @catfmcastro
     Catarina F. M. Castro
