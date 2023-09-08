@@ -58,11 +58,34 @@ public class Q07 {
 
     // Checa se o char é uma vogal
     public static boolean isVogal(char c) {
-        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'á' || c == 'é' || c == 'í' || c == 'ó' || c == 'ú' || c == 'à' || c == 'è' || c == 'ì' || c == 'ò' || c == 'ù' || c == 'ã' || c == 'õ' || c == 'â' || c == 'ê' || c == 'î' || c == 'ô' || c == 'û') {
-            return true; // char é vogal
+        switch (Character.toLowerCase(c)) {
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u':
+                return true;
+            case '\u00E1': // á
+            case '\u00E9': // é
+            case '\u00ED': // í
+            case '\u00F3': // ó
+            case '\u00FA': // ú
+            case '\u00E0': // à
+            case '\u00E8': // è
+            case '\u00EC': // ì
+            case '\u00F2': // ò
+            case '\u00F9': // ù
+            case '\u00E3': // ã
+            case '\u00F5': // õ
+            case '\u00E2': // â
+            case '\u00EA': // ê
+            case '\u00EE': // î
+            case '\u00F4': // ô
+            case '\u00FB': // û
+                return true;
+            default:
+                return false;
         }
-
-        return false; // char não é vogal
     }
 
     public static void main(String[] args){
@@ -99,7 +122,7 @@ public class Q07 {
 
                 // contagem de vogais, acentuadas ou nao
                 if(isVogal(c)){
-                    switch (c) {
+                    switch (Character.toLowerCase(c)) {
                         case 'a':
                             a++;
                             break;
@@ -115,62 +138,62 @@ public class Q07 {
                         case 'u':
                             u++;
                             break;
-                        case 'á':
+                        case '\u00E1': // á
                             aAgu++;
                             break;
-                        case 'é':
+                        case '\u00E9': // é
                             eAgu++;
                             break;
-                        case 'í':
+                        case '\u00ED': // í
                             iAgu++;
                             break;
-                        case 'ó':
+                        case '\u00F3': // ó
                             oAgu++;
                             break;
-                        case 'ú':
+                        case '\u00FA': // ú
                             uAgu++;
                             break;
-                        case 'à':
+                        case '\u00E0': // à
                             aCras++;
                             break;
-                        case 'è':
+                        case '\u00E8': // è
                             eCras++;
                             break;
-                        case 'ì':
+                        case '\u00EC': // ì
                             iCras++;
                             break;
-                        case 'ò':
+                        case '\u00F2': // ò
                             oCras++;
                             break;
-                        case 'ù':
+                        case '\u00F9': // ù
                             uCras++;
                             break;
-                        case 'ã':
+                        case '\u00E3': // ã
                             aTil++;
                             break;
-                        case 'õ':
+                        case '\u00F5': // õ
                             oTil++;
                             break;
-                        case 'â':
+                        case '\u00E2': // â
                             aCirc++;
                             break;
-                        case 'ê':
+                        case '\u00EA': // ê
                             eCirc++;
                             break;
-                        case 'î':
+                        case '\u00EE': // î
                             iCirc++;
                             break;
-                        case 'ô':
+                        case '\u00F4': // ô
                             oCirc++;
                             break;
-                        case 'û':
+                        case '\u00FB': // û
                             uCirc++;
                             break;
                     }
                 }
 
                 // contagem de consoantes
-                if(!isVogal(c) && (c >= 'a' && c <= 'z')){
+                if((c >= 'a' && c <= 'z')){
                     consoantes++;
                 }
 
@@ -182,6 +205,8 @@ public class Q07 {
                 if(j + 6 < html.length() && html.charAt(j) == '<' && html.charAt(j + 1) == 't' && html.charAt(j + 2) == 'a' && html.charAt(j + 3) == 'b' && html.charAt(j + 4) == 'l' && html.charAt(j + 5) == 'e' && html.charAt(j + 6) == '>'){
                     table++; // <table>
                     consoantes -= 3;
+                    a--;
+                    e--;
                 }
             }
 
