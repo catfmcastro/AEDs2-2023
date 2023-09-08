@@ -1,4 +1,4 @@
-package Lab_30_08;
+package lab_30_08;
 
 import java.util.*;
 
@@ -12,27 +12,25 @@ public class Pato{
 		return peso; 
 	}
 
-	public double setPeso(double peso){
+	public void setPeso(double peso){
 		if(peso > 0){
 			this.peso = peso;
 		}
 	}
 
-	// construtor com parÃmetros
+	// construtor com parï¿½metros
 	public Pato(double peso){
 		setPeso(peso);
 	}
 
-	// construtor com parÃmetros
+	// construtor com parï¿½metros
 	public Pato(String cor, double peso){
 		this.cor = cor;
-		this.(peso);
+		this.peso = peso;
 	}
 
 	// metodo para clonar pato
 	public Pato clone(){
-		Pato aux = new Pato;
-
-
+		Pato aux = new Pato();
 	}
 }
