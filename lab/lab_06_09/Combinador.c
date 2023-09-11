@@ -18,9 +18,9 @@ int main (void){
     char str2[60];
     int maior;
 
+
     while (scanf("%s", str1) != EOF) {
         // Entrada das strings
-        scanf("%s", str1);
         scanf("%s", str2);
 
         // Combinação das duas strings
