@@ -1,6 +1,6 @@
 // quando compilei o código pelo meu terminal, ele rodava infinitamente, mas com a saida correta.
 
-//package Prova;
+package Prova;
 
 import java.util.Scanner;
 
