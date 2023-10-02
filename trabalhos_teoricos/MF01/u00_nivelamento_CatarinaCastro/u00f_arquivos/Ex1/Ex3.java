@@ -9,6 +9,8 @@ AEDs II
 
 // Brincar com o RAF
 
+package Ex1;
+
 import java.io.*;
 
 public class Ex3 {
