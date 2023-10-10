@@ -7,16 +7,20 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// criacao da classe Jogador, em java, com pelo menos dois construtores, e os metodos gets,T sets, clone, imprimir e ler. 
-// ler arquivo com todos os jogadores, depois, ler entrada de ids e imprimis suas respectivas informações na saida
+// objetivo: implementacao de pesquisa sequencial
+// entrada: sucessivos ids de jogadores e depois varias linhas com elementos que devem ser pesquisados no vetor
+// imprimir SIM ou NAO para cada elemento encontrado no vetor
+// criar um arquivo de log com matricula, tempo de execucao do algoritmo e numero de comparacoes realizadas
 
-package TP02.Q01;
+// package TP02.Q03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Jogador {
+class Jogador {
     // atributos
     private int id;
     private String nome;
@@ -56,6 +60,7 @@ public class Jogador {
     public void setId(int id) {
         this.id = id;
     }
+
     public int getId() {
         return id;
     }
@@ -64,6 +69,7 @@ public class Jogador {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getNome() {
         return nome;
     }
@@ -72,6 +78,7 @@ public class Jogador {
     public void setAltura(int altura) {
         this.altura = altura;
     }
+
     public int getAltura() {
         return altura;
     }
@@ -80,6 +87,7 @@ public class Jogador {
     public void setPeso(int peso) {
         this.peso = peso;
     }
+
     public int getPeso() {
         return peso;
     }
@@ -88,6 +96,7 @@ public class Jogador {
     public void setUniversidade(String universidade) {
         this.universidade = universidade;
     }
+
     public String getUniversidade() {
         return universidade;
     }
@@ -96,6 +105,7 @@ public class Jogador {
     public void setAnoNascimento(int anoNascimento) {
         this.anoNascimento = anoNascimento;
     }
+
     public int getAnoNascimento() {
         return anoNascimento;
     }
@@ -104,14 +114,16 @@ public class Jogador {
     public void setCidadeNascimento(String cidadeNascimento) {
         this.cidadeNascimento = cidadeNascimento;
     }
+
     public String getCidadeNascimento() {
         return cidadeNascimento;
     }
-    
+
     // get e set estadoNascimento
     public void setEstadoNascimento(String estadoNascimento) {
         this.estadoNascimento = estadoNascimento;
     }
+
     public String getEstadoNascimento() {
         return estadoNascimento;
     }
@@ -186,12 +198,19 @@ public class Jogador {
         } else {
             this.estadoNascimento = "nao informado";
         }
+
     }
+
+}
+
+public class PesquisaSequencial {
+    // numero de comparacoes
+    public static int comp = 0;
 
     // ler arquivo em csv e converte para uma string enorme
     public static String[] lerCsv(String path) {
         // abre o arquivo
-        File file = new File(path);
+        File file = new File("/tmp/" + path);
 
         // array de strings, com tamanho especifico do arquivo
         String[] data = new String[3922];
@@ -203,7 +222,7 @@ public class Jogador {
         try {
             // declaracao de scanner
             Scanner sc = new Scanner(file);
-            sc.nextLine(); // le a primeira linha (irrelevante)
+            sc.nextLine(); // le a primeira linha
 
             // faz leituras ate que acabe o arquivo
             while (sc.hasNext()) {
@@ -221,6 +240,37 @@ public class Jogador {
         return data;
     }
 
+    // pesquisa sequencial
+    public static void pesquisa(Jogador[] arrSearch, String n, int tam) {
+        // declaracao variaveis
+        boolean resp = false;
+
+        // busca pelo jogador no array
+        for (int j = 0; j < tam; j++) {
+            if (arrSearch[j].getNome().equals(n)) {
+                resp = true; // jogador encontrado
+                j = arrSearch.length;
+            }
+            comp++;
+        }
+
+        // imprime resuldado na tela
+        if (resp == true) {
+            System.out.println("SIM");
+        } else {
+            System.out.println("NAO");
+        }
+
+    }
+
+    // cria arquivo de log
+    public static void criarLog(long tempo) throws IOException {
+        File logs = new File("matrícula_sequencial.txt");
+        FileWriter write = new FileWriter(logs);
+        write.write("803531" + '\t' + tempo + '\t' + comp);
+        write.close();
+    }
+
     // metodo main
     public static void main(String[] args) {
         // declaracao Scanner
@@ -232,7 +282,7 @@ public class Jogador {
         // array de jogadores
         Jogador[] jogadores = new Jogador[data.length];
 
-        // salva dados do file csv no array de objetos
+        // preenche array de jogadores
         for (int i = 0; i < data.length; i++) {
             String aux = data[i];
             Jogador player = new Jogador();
@@ -240,12 +290,37 @@ public class Jogador {
             jogadores[i] = player;
         }
 
-        // imprme players com base no id
+        // declaracao novo array
+        Jogador arrSearch[] = new Jogador[1000];
+        int tam = 0;
+
+        // salva jogadores (pelo id) em um array de pesquisa
         String input = sc.nextLine();
-        while (!input.equals("FIM")) {
+        while (!input.equals("FIM") && tam < arrSearch.length) {
             int id = Integer.parseInt(input);
-            jogadores[id].imprimir();
-            input = sc.nextLine(); // nova entrada
+            arrSearch[tam] = jogadores[id];
+            tam++;
+            input = sc.nextLine();
+        }
+
+        // contagem de tempo ------------------------------------
+        long startTime = System.currentTimeMillis();
+
+        // busca jogadores pelo nome
+        input = sc.nextLine();
+        while (!input.equals("FIM")) {
+            pesquisa(arrSearch, input, tam);
+            input = sc.nextLine();
+        }
+
+        // fim contagem de tempo --------------------------------
+        long endTime = System.currentTimeMillis();
+        long tempo = endTime - startTime;
+
+        try {
+            criarLog(tempo);
+        } catch (IOException e) {
+            System.out.println("Não foi possível criar arquivo: " + e);
         }
 
         // fechamento do scanner
