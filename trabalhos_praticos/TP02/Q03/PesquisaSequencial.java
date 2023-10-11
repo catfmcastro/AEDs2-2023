@@ -12,7 +12,7 @@ AEDs II
 // imprimir SIM ou NAO para cada elemento encontrado no vetor
 // criar um arquivo de log com matricula, tempo de execucao do algoritmo e numero de comparacoes realizadas
 
-// package TP02.Q03;
+//package Q03;
 
 import java.io.File;
 import java.io.FileNotFoundException;

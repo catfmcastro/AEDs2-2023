@@ -7,7 +7,12 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// 
+// ler uma serie de ids dos jogadores e imprimi-los na saida em ordem alfabetica
+
+// package Q05;
+
+import java.util.*;
+import java.io.*;
 
 class Jogador {
     // atributos
@@ -234,13 +239,30 @@ public class SelectionSort {
     public static void criarLog(long tempo) throws IOException {
         File logs = new File("803531_selecao.txt");
         FileWriter write = new FileWriter(logs);
-        write.write("803531" + '\t' + tempo + '\t' + comp);
+        write.write("803531" + '\t' + comp + '\t' + mov + '\t' + tempo);
         write.close();
     }
 
-    // selection sort
-    public static void sort(Jogador[] arrSort){
+    // método swap
+    public static void swap(int menor, int i, Jogador[] array) {
+        Jogador temp = array[menor];
+        array[menor] = array[i];
+        array[i] = temp;
+     }
 
+    // SELECTION SORT pelo nome do jogador
+    public static void sort(Jogador[] array, int tam){
+        for (int i = 0; i < (tam - 1); i++) {
+            int menor = i;
+            for (int j = (i + 1); j < tam; j++){
+               if (array[j].getNome().compareTo(array[menor].getNome()) < 0){
+                  menor = j;
+               }
+               comp++;
+            }
+            swap(menor, i, array);
+            mov += 3;
+         }
     }
 
     public static void main(String[] args) {
@@ -262,7 +284,7 @@ public class SelectionSort {
         }
 
         // declaracao novo array
-        Jogador arrSearch[] = new Jogador[1000];
+        Jogador arrSort[] = new Jogador[1000];
         int tam = 0;
 
         // salva jogadores (pelo id) em um array para ordenacao
@@ -277,16 +299,17 @@ public class SelectionSort {
         // contagem de tempo ------------------------------------
         long startTime = System.currentTimeMillis();
 
-        // busca jogadores pelo nome
-        input = sc.nextLine();
-        while (!input.equals("FIM")) {
-            sort(arrSearch);
-            input = sc.nextLine();
-        }
+        // ordena o array
+        sort(arrSort, tam);
 
-        // fim contagem de tempo --------------------------------
         long endTime = System.currentTimeMillis();
         long tempo = endTime - startTime;
+        // fim contagem de tempo --------------------------------
+
+        // imprime o resultado na tela
+        for(int i = 0; i < tam; i++){
+            arrSort[i].imprimir();
+        }
 
         // criacao do arquivo log
         try {
