@@ -378,11 +378,11 @@ void sort()
     {
         for (j = 0; j < i; j++)
         {
-            if (getAnoNascimento(jogadores[j]) > getAnoNascimento(jogadores[j + 1]))
+            if (getAnoNascimento(arrSort[j]) > getAnoNascimento(arrSort[j + 1]))
             {
                 swap(j, j + 1);
             }
-            else if (getAnoNascimento(jogadores[j]) == getAnoNascimento(jogadores[j + 1]) && strcmp(getNome(jogadores[j]), getNome(jogadores[j + 1])) > 0)
+            else if (getAnoNascimento(arrSort[j]) == getAnoNascimento(arrSort[j + 1]) && strcmp(getNome(arrSort[j]), getNome(arrSort[j + 1])) > 0)
             {
                 swap(j, j + 1);
             }
@@ -394,7 +394,7 @@ void sort()
 int main()
 {
     // /tmp/
-    lerCsv("/tmp/players.csv");
+    lerCsv("/tmp/playersAtualizado.csv");
 
     // entradas
     bool flag = true;

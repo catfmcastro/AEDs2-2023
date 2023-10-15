@@ -390,15 +390,15 @@ void insercao(int cor, int h)
 {
     for (int i = (h + cor); i < tam; i += h)
     {
-        Jogador tmp = jogadores[i];
+        Jogador tmp = arrSort[i];
         int j = i - h;
-        while ((j >= 0) && compPeso(jogadores[j], tmp))
+        while ((j >= 0) && compPeso(arrSort[j], tmp))
         {
-            jogadores[j + h] = jogadores[j];
+            arrSort[j + h] = arrSort[j];
             j -= h;
             mov++;
         }
-        jogadores[j + h] = tmp;
+        arrSort[j + h] = tmp;
         mov++;
     }
 }
@@ -426,7 +426,7 @@ void sort()
 int main()
 {
     // /tmp/
-    lerCsv("/tmp/players.csv");
+    lerCsv("/tmp/playersAtualizado.csv");
 
     // entradas
     bool flag = true;

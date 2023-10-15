@@ -368,15 +368,15 @@ int minIndex(int i, int j)
 void sort(int esq, int dir)
 {
     int i = esq, j = dir;
-    Jogador pivo = jogadores[(dir + esq) / 2]; // declaracao do pivo
+    Jogador pivo = arrSort[(dir + esq) / 2]; // declaracao do pivo
 
     while (i <= j)
     {
-        while (strcmp(getEstadoNascimento(jogadores[i]), getEstadoNascimento(pivo)) < 0 || strcmp(getEstadoNascimento(jogadores[i]), getEstadoNascimento(pivo)) == 0 && strcmp(getNome(jogadores[i]), getNome(pivo)) < 0)
+        while (strcmp(getEstadoNascimento(arrSort[i]), getEstadoNascimento(pivo)) < 0 || strcmp(getEstadoNascimento(arrSort[i]), getEstadoNascimento(pivo)) == 0 && strcmp(getNome(arrSort[i]), getNome(pivo)) < 0)
         {
             i++;
         }
-        while (strcmp(getEstadoNascimento(jogadores[j]), getEstadoNascimento(pivo)) > 0 || strcmp(getEstadoNascimento(jogadores[j]), getEstadoNascimento(pivo)) == 0 && strcmp(getNome(jogadores[j]), getNome(pivo)) > 0)
+        while (strcmp(getEstadoNascimento(arrSort[j]), getEstadoNascimento(pivo)) > 0 || strcmp(getEstadoNascimento(arrSort[j]), getEstadoNascimento(pivo)) == 0 && strcmp(getNome(arrSort[j]), getNome(pivo)) > 0)
         {
             j--;
         }
@@ -404,7 +404,7 @@ void sort(int esq, int dir)
 int main()
 {
     // /tmp/
-    lerCsv("/tmp/players.csv");
+    lerCsv("/tmp/playersAtualizado.csv");
 
     // entradas
     bool flag = true;

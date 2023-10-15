@@ -391,7 +391,7 @@ void sort()
 int main()
 {
     // /tmp/
-    lerCsv("/tmp/players.csv");
+    lerCsv("/tmp/playersAtualizado.csv");
 
     // entradas
     bool flag = true;
