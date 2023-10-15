@@ -254,7 +254,7 @@ class MergeSort {
 
     // compara os nomes dos jogadores, caso o ano de nascimento seja igual
     public static boolean compNome(Jogador atual, Jogador tmp) {
-        return (tmp.getUniversidade().compareTo(atual.getUniversidade()) == 0 && tmp.getNome().compareTo(atual.getNome()) < 0);
+        return (atual.getUniversidade().compareTo(tmp.getUniversidade()) == 0 && atual.getNome().compareTo(tmp.getNome()) < 0);
     }
 
     // MERGE SORT pela universidade do jogador
@@ -356,7 +356,7 @@ class MergeSort {
         long startTime = System.currentTimeMillis();
 
         // ordena o array
-        sort(arrSort, 0, tam);
+        sort(arrSort, 0, tam - 1);
 
         long endTime = System.currentTimeMillis();
         long tempo = endTime - startTime;

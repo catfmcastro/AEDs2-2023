@@ -248,7 +248,7 @@ public class HeapSort {
     // compara os nomes dos jogadores, caso o ano de nascimento seja igual
     public static boolean compNome(Jogador atual, Jogador tmp) {
         comp += 2;
-        return (atual.getAnoNascimento() == tmp.getAnoNascimento() && tmp.getNome().compareTo(atual.getNome()) < 0);
+        return (atual.getAltura() == tmp.getAltura() && atual.getNome().compareTo(tmp.getNome()) < 0);
     }
 
     // método swap
@@ -261,7 +261,7 @@ public class HeapSort {
 
     // método para construir o heap
     public static void construir(int tamHeap, Jogador[] array) {
-        for (int i = tamHeap; i > 1; i /= 2) {
+        for (int i = tamHeap; i > 1; i--) {
             if (array[i].getAltura() > array[i / 2].getAltura()) {
                 // troca filho com pai, se esse for maior
                 swap(i, i / 2, array);
