@@ -350,7 +350,7 @@ void swap(int x, int y)
     arrSort[y] = tmp;
 }
 
-// encontra o id do elemento de menor nome
+// encontra o id do elemento de menor PESO
 int minIndex(int i, int j)
 {
     if (i == j)
@@ -446,7 +446,7 @@ int main()
 
     // selection sort
     startTime = clock();
-    sort(0);
+    sort();
     endTime = clock();
     tempo = endTime - startTime;
 
