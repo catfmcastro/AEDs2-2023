@@ -116,15 +116,7 @@ void setEstadoNascimento(Jogador *jogador, char *novoEstadoNascimento)
 // imprime jogador na saída
 void imprimir(Jogador jogador)
 {
-    printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]\n",
-           getId(jogador),
-           getNome(jogador),
-           getAltura(jogador),
-           getPeso(jogador),
-           getAnoNascimento(jogador),
-           getUniversidade(jogador),
-           getCidadeNascimento(jogador),
-           getEstadoNascimento(jogador));
+    printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]\n", getId(jogador), getNome(jogador), getAltura(jogador), getPeso(jogador), getAnoNascimento(jogador), getUniversidade(jogador), getCidadeNascimento(jogador), getEstadoNascimento(jogador));
 
 }
 

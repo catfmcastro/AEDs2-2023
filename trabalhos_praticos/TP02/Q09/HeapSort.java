@@ -207,7 +207,7 @@ public class HeapSort {
     public static String[] lerCsv(String path) {
         // abre o arquivo
         // "/tmp/" +
-        File file = new File( path);
+        File file = new File("/tmp/" + path);
 
         // array de strings, com tamanho especifico do arquivo
         String[] data = new String[3922];
@@ -349,7 +349,7 @@ public class HeapSort {
         Scanner sc = new Scanner(System.in);
 
         // chamada do metodo
-        String[] data = lerCsv("players.csv");
+        String[] data = lerCsv("playersAtualizado.csv");
 
         // array de jogadores
         Jogador[] jogadores = new Jogador[data.length];

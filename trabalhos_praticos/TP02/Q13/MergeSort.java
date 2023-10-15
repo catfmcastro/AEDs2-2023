@@ -7,7 +7,7 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// ler uma serie de ids dos jogadores e imprimi-los na saida em ordenados pelo universidade, utilizando o merge sort
+// ler uma serie de ids dos jogadores e imprimi-los na saida em ordenados pela universidade, utilizando o merge sort
 
 // package Q07;
 
@@ -206,7 +206,7 @@ class MergeSort {
     public static String[] lerCsv(String path) {
         // abre o arquivo
         // "/tmp/" +
-        File file = new File(path);
+        File file = new File("/tmp/" + path);
 
         // array de strings, com tamanho especifico do arquivo
         String[] data = new String[3922];
@@ -326,7 +326,7 @@ class MergeSort {
         Scanner sc = new Scanner(System.in);
 
         // chamada do metodo
-        String[] data = lerCsv("players.csv");
+        String[] data = lerCsv("playersAtualizado.csv");
 
         // array de jogadores
         Jogador[] jogadores = new Jogador[data.length];

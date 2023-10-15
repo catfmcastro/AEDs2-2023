@@ -315,7 +315,7 @@ public class CountingSort {
         Scanner sc = new Scanner(System.in);
 
         // chamada do metodo
-        String[] data = lerCsv("players.csv");
+        String[] data = lerCsv("playersAtualizado.csv");
 
         // array de jogadores
         Jogador[] jogadores = new Jogador[data.length];
