@@ -31,8 +31,9 @@ public class FilaDoRecreio {
 
             // ordena o array decrescente
             int[] alunosSort = Arrays.copyOf(alunos, m);
+
             Arrays.sort(alunosSort);
-            for (int i = 0; i < m; i++) {
+            for (int i = 0; i < m / 2; i++) {
                 int tmp = alunosSort[i];
                 alunosSort[i] = alunosSort[m - 1 - i];
                 alunosSort[m - 1 - i] = tmp;
