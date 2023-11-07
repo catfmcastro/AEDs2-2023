@@ -304,13 +304,16 @@ class Lista {
         return removido;
     }
 
+    // public String mostrar(int id) {
+        
+    // }
+
 }
 
 public class ListaSequencial {
 
     // ler csv e converte para string
     public static String[] lerCsv(String path) {
-        // abre o arquivo
         // "/tmp/" +
         File file = new File(path);
 
@@ -360,25 +363,22 @@ public class ListaSequencial {
             jogadores[i] = player;
         }
 
-        // array de pesquisa/sort
-        Jogador data[] = new Jogador[1000];
-        int tam = 0;
-
-        String input = sc.nextLine();
-        while (!input.equals("FIM") && tam < data.length) {
-            int id = Integer.parseInt(input);
-            data[tam] = jogadores[id];
-            tam++;
-            input = sc.nextLine();
+        // lista de jogadores
+        Lista lista = new Lista();
+        
+        // insere jogadores na lista
+        while (!sc.hasNext("FIM")) {
+            int input = sc.nextInt();
+            int id = input;
+            lista.inserirFim(jogadores[id]);
         }
-
-        // ordena o array
-        // sort(data, tam);
+        
+             
 
         // imprime o resultado na tela
-        for (int i = 0; i < tam; i++) {
-            data[i].imprimir();
-        }
+        // for (int i = 0; i < tam; i++) {
+        //     data[i].imprimir();
+        // }
 
         // fechamento do scanner
         sc.close();

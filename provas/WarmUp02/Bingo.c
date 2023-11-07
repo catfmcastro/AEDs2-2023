@@ -39,9 +39,9 @@ int main(int argc, char const *argv[])
     }
 
     // cartelas vencedoras
-    for (int i = 0; i < n; i++) {
+    for (int z = 0; z < u; z++) {
 
-        for (int z = 0; z < u; z++) {
+        for (int i = 0; i < n; i++) {
             int tmp = sorteio[z];
             for (int j = 0; j < k; j++) {
                 if (cartelas[i][j] == tmp) {
@@ -52,6 +52,7 @@ int main(int argc, char const *argv[])
                         // interrupcao do loop
                         j = k;
                         z = u;
+                        i = n;
                     }
                 }
             }
