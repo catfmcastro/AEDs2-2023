@@ -195,6 +195,22 @@ class Celula {
     public Celula(Jogador elemento) {
         this.elemento = elemento;
     }
+
+    public Jogador getElemento () {
+        return this.elemento;
+    }
+
+    public void setElemento (Jogador elemento) {
+        this.elemento = elemento;
+    }
+
+    public Celula getProx () {
+        return this.prox;
+    }
+
+    public void setProx (Celula prox) {
+        this.prox = prox;
+    }
 }
 
 class Lista {
@@ -304,9 +320,24 @@ class Lista {
         return removido;
     }
 
-    // public String mostrar(int id) {
-        
-    // }
+    // imprime a lista inteira
+    public void imprimir() {
+        Celula tmp = primeiro;
+        int indice = 0;
+        while (tmp != null) {
+            System.out.println("[" + indice +"]");
+            System.out.print(" ##" + tmp.getElemento().getNome());
+            System.out.print(" ##" + tmp.getElemento().getAltura());
+            System.out.print(" ##" + tmp.getElemento().getPeso());
+            System.out.print(" ##" + tmp.getElemento().getAnoNascimento());
+            System.out.print(" ##" + tmp.getElemento().getUniversidade());
+            System.out.print(" ##" + tmp.getElemento().getCidadeNascimento());
+            System.out.print(" ##" + tmp.getElemento().getEstadoNascimento());
+            System.out.print(" ##");
+            tmp = tmp.prox;
+            indice++;
+        }
+    }
 
 }
 
@@ -318,7 +349,7 @@ public class ListaSequencial {
         File file = new File(path);
 
         // array de strings, com tamanho especifico do arquivo
-        String[] csvData = new String[3922];
+        String[] csvData = new String[3924];
 
         // contador
         int i = 0;
@@ -352,7 +383,7 @@ public class ListaSequencial {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String[] csvData = lerCsv("playersAtualizado.csv");
+        String[] csvData = lerCsv("players.csv");
 
         // array com todos os jogadores
         Jogador[] jogadores = new Jogador[csvData.length];
@@ -373,12 +404,8 @@ public class ListaSequencial {
             lista.inserirFim(jogadores[id]);
         }
         
-             
-
         // imprime o resultado na tela
-        // for (int i = 0; i < tam; i++) {
-        //     data[i].imprimir();
-        // }
+        lista.imprimir();
 
         // fechamento do scanner
         sc.close();
