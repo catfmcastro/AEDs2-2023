@@ -235,8 +235,12 @@ class Lista {
     }
 
     public void inserirFim(Jogador x) {
-        ultimo.prox = new Celula(x);
-        ultimo = ultimo.prox;
+        if (ultimo == null) {
+            ultimo = new Celula(x);
+        } else {
+            ultimo.prox = new Celula(x);
+            ultimo = ultimo.prox;
+        }
     }
 
     public void inserir(Jogador x, int pos) throws Exception {
@@ -254,7 +258,7 @@ class Lista {
             for (int j = 0; j < pos; j++, i = i.prox)
                 ;
 
-            Celula tmp = new Celula();
+            Celula tmp = new Celula(x);
             tmp.prox = i.prox;
             i.prox = tmp;
             tmp = i = null;
@@ -347,16 +351,16 @@ public class ListaSequencial {
     public static String[] lerCsv(String path) {
         // "/tmp/" +
         File file = new File(path);
-
-        // array de strings, com tamanho especifico do arquivo
-        String[] csvData = new String[3924];
-
-        // contador
+        String[] csvData = new String[3922]; // array de strings, com tamanho especifico do arquivo
         int i = 0;
 
         // le o arquivo e salva cada linha no array de strings
         try {
             Scanner sc = new Scanner(file);
+
+            if (sc.hasNext()) { // pula a primeira linha do csv
+                sc.nextLine();
+            }
 
             while (sc.hasNext()) {
                 csvData[i] = sc.nextLine();
@@ -403,9 +407,11 @@ public class ListaSequencial {
             int id = input;
             lista.inserirFim(jogadores[id]);
         }
+
         
-        // imprime o resultado na tela
-        lista.imprimir();
+
+        // // imprime o resultado na tela
+        // lista.imprimir();
 
         // fechamento do scanner
         sc.close();
