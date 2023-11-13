@@ -196,19 +196,19 @@ class Celula {
         this.elemento = elemento;
     }
 
-    public Jogador getElemento () {
+    public Jogador getElemento() {
         return this.elemento;
     }
 
-    public void setElemento (Jogador elemento) {
+    public void setElemento(Jogador elemento) {
         this.elemento = elemento;
     }
 
-    public Celula getProx () {
+    public Celula getProx() {
         return this.prox;
     }
 
-    public void setProx (Celula prox) {
+    public void setProx(Celula prox) {
         this.prox = prox;
     }
 }
@@ -216,6 +216,11 @@ class Celula {
 class Lista {
     private Celula primeiro;
     private Celula ultimo;
+
+    public Lista() {
+        primeiro = new Celula();
+        ultimo = primeiro;
+    }
 
     public int tamanho() {
         int tamanho = 0;
@@ -326,10 +331,10 @@ class Lista {
 
     // imprime a lista inteira
     public void imprimir() {
-        Celula tmp = primeiro;
+        Celula tmp = primeiro.prox;
         int indice = 0;
         while (tmp != null) {
-            System.out.println("[" + indice +"]");
+            System.out.print("[" + indice + "]");
             System.out.print(" ##" + tmp.getElemento().getNome());
             System.out.print(" ##" + tmp.getElemento().getAltura());
             System.out.print(" ##" + tmp.getElemento().getPeso());
@@ -337,7 +342,7 @@ class Lista {
             System.out.print(" ##" + tmp.getElemento().getUniversidade());
             System.out.print(" ##" + tmp.getElemento().getCidadeNascimento());
             System.out.print(" ##" + tmp.getElemento().getEstadoNascimento());
-            System.out.print(" ##");
+            System.out.println(" ##");
             tmp = tmp.prox;
             indice++;
         }
@@ -400,7 +405,7 @@ public class ListaSequencial {
 
         // lista de jogadores
         Lista lista = new Lista();
-        
+
         // insere jogadores na lista
         while (!sc.hasNext("FIM")) {
             int input = sc.nextInt();
@@ -408,10 +413,23 @@ public class ListaSequencial {
             lista.inserirFim(jogadores[id]);
         }
 
-        
+        int n = sc.nextInt(); // numero de linhas a serem lidas
 
-        // // imprime o resultado na tela
-        // lista.imprimir();
+        for (int i = 0; i < n; i++) {
+            String aux = sc.nextLine();
+            String[] arr = aux.split(" ");
+            String comando = arr[0]; // comando
+            int idTmp = Integer.parseInt(arr[1]); // id do jogador
+
+            if (comando.equals("II")) {
+                lista.inserirInicio(jogadores[idTmp]);
+            } else if (comando.equals("I*")) {
+                lista.inserir(jogadores[idTmp], idTmp);
+            }
+        }
+
+        // imprime o resultado na tela
+        lista.imprimir();
 
         // fechamento do scanner
         sc.close();
