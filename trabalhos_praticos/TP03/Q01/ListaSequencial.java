@@ -335,14 +335,14 @@ class Lista {
         int indice = 0;
         while (tmp != null) {
             System.out.print("[" + indice + "]");
-            System.out.print(" ##" + tmp.getElemento().getNome());
-            System.out.print(" ##" + tmp.getElemento().getAltura());
-            System.out.print(" ##" + tmp.getElemento().getPeso());
-            System.out.print(" ##" + tmp.getElemento().getAnoNascimento());
-            System.out.print(" ##" + tmp.getElemento().getUniversidade());
-            System.out.print(" ##" + tmp.getElemento().getCidadeNascimento());
-            System.out.print(" ##" + tmp.getElemento().getEstadoNascimento());
-            System.out.println(" ##");
+            System.out.print(" ## " + tmp.getElemento().getNome());
+            System.out.print(" ## " + tmp.getElemento().getAltura());
+            System.out.print(" ## " + tmp.getElemento().getPeso());
+            System.out.print(" ## " + tmp.getElemento().getAnoNascimento());
+            System.out.print(" ## " + tmp.getElemento().getUniversidade());
+            System.out.print(" ## " + tmp.getElemento().getCidadeNascimento());
+            System.out.print(" ## " + tmp.getElemento().getEstadoNascimento());
+            System.out.println(" ## ");
             tmp = tmp.prox;
             indice++;
         }
@@ -355,7 +355,7 @@ public class ListaSequencial {
     // ler csv e converte para string
     public static String[] lerCsv(String path) {
         // "/tmp/" +
-        File file = new File(path);
+        File file = new File("/tmp/" + path);
         String[] csvData = new String[3922]; // array de strings, com tamanho especifico do arquivo
         int i = 0;
 
@@ -390,48 +390,71 @@ public class ListaSequencial {
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        try {
 
-        String[] csvData = lerCsv("players.csv");
+            Scanner sc = new Scanner(System.in);
 
-        // array com todos os jogadores
-        Jogador[] jogadores = new Jogador[csvData.length];
-        for (int i = 0; i < csvData.length; i++) {
-            String aux = csvData[i];
-            Jogador player = new Jogador();
-            player.ler(aux);
-            jogadores[i] = player;
-        }
+            String[] csvData = lerCsv("players.csv");
 
-        // lista de jogadores
-        Lista lista = new Lista();
-
-        // insere jogadores na lista
-        while (!sc.hasNext("FIM")) {
-            int input = sc.nextInt();
-            int id = input;
-            lista.inserirFim(jogadores[id]);
-        }
-
-        int n = sc.nextInt(); // numero de linhas a serem lidas
-
-        for (int i = 0; i < n; i++) {
-            String aux = sc.nextLine();
-            String[] arr = aux.split(" ");
-            String comando = arr[0]; // comando
-            int idTmp = Integer.parseInt(arr[1]); // id do jogador
-
-            if (comando.equals("II")) {
-                lista.inserirInicio(jogadores[idTmp]);
-            } else if (comando.equals("I*")) {
-                lista.inserir(jogadores[idTmp], idTmp);
+            // array com todos os jogadores
+            Jogador[] jogadores = new Jogador[csvData.length];
+            for (int i = 0; i < csvData.length; i++) {
+                String aux = csvData[i];
+                Jogador player = new Jogador();
+                player.ler(aux);
+                jogadores[i] = player;
             }
+
+            // lista de jogadores
+            Lista lista = new Lista();
+
+            // insere jogadores na lista
+            while (!sc.hasNext("FIM")) {
+                int input = sc.nextInt();
+                int id = input;
+                lista.inserirFim(jogadores[id]);
+            }
+
+            sc.nextLine();
+            sc.nextLine();
+
+            int n = sc.nextInt(); // numero de linhas a serem lidas
+            sc.nextLine();
+
+            for (int i = 0; i < n; i++) {
+                String comando = sc.next(); // comando
+                
+                if (comando.equals("II")) {
+                    int idTmp = sc.nextInt(); // id do jogador
+                    lista.inserirInicio(jogadores[idTmp]);
+                } else if (comando.equals("I*")) {
+                    int pos = sc.nextInt();
+                    int idTmp = sc.nextInt(); // id do jogador
+                    lista.inserir(jogadores[idTmp], pos);
+                } else if (comando.equals("IF")) {
+                    int idTmp = sc.nextInt();
+                    lista.inserirFim(jogadores[idTmp]);
+                } else if (comando.equals("RI")) {
+                    Jogador tmp = lista.removerInicio();
+                    System.out.println("(R) " + tmp.getNome());
+                } else if (comando.equals("R*")) {
+                    int pos = sc.nextInt();
+                    Jogador tmp = lista.remover(pos);
+                    System.out.println("(R) " + tmp.getNome());
+                } else if (comando.equals("RF")) {
+                    Jogador tmp = lista.removerFim();
+                    System.out.println("(R) " + tmp.getNome());
+                }
+                
+            }
+
+            // imprime o resultado na tela
+            lista.imprimir();
+
+            // fechamento do scanner
+            sc.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        // imprime o resultado na tela
-        lista.imprimir();
-
-        // fechamento do scanner
-        sc.close();
     }
 }
