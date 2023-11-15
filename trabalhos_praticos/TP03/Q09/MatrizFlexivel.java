@@ -47,23 +47,32 @@ class Matriz {
         criarMat();
     }
 
+    // todo fazer conexões verticais
     public void criarMat() {
         Celula l, c;
         l = c = inicio;
 
+        // motagem da primeira linha
+        for (int j = 1; j < coluna; j++) {
+            c.dir = new Celula();
+            c.dir.esq = c;
+            c = c.dir;
+        }
+
         // alocação dos espaços das celulas
-        // todo fazer conexões verticais
         for (int i = 1; i < linha; i++) {
+            l.inf = new Celula();
+            l.inf.sup = l;
+            c = l.inf.dir = new Celula();
+            c.esq = l.inf;
+
             for (int j = 1; j < coluna; j++) {
                 c.dir = new Celula();
                 c.dir.esq = c;
                 c = c.dir;
             }
 
-            l.inf = new Celula();
-            l.inf.sup = l;
             l = l.inf;
-            c = l;
         }
 
     }
@@ -106,7 +115,7 @@ class Matriz {
             Celula c2 = l2.dir;
 
             for (int i = 1; i < m1.linha; i++) {
-                
+
                 l.elemento = (l1.elemento + l2.elemento);
 
                 for (int j = 1; j < m2.coluna; j++) {
