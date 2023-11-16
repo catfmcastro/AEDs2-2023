@@ -7,7 +7,7 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// lista sequencial de registros de jogadores
+// fila flexivel sequencial de registros de jogadores
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -26,8 +26,6 @@ typedef struct Jogador {
     char cidadeNascimento[100];
     char estadoNascimento[100];
 } Jogador;
-
-int tam = 0;
 
 Jogador clone(Jogador *jogador) {
     Jogador aux = *jogador;
@@ -114,54 +112,47 @@ void swap(int *x, int *y) {
     *y = tmp;
 }
 
-// LISTA --------------------------------------------------------------------------------------------------------------------
+// LISTA CIRULAR ---------------------------------------------------------------------------------------------------------------
 
-void inserirInicio(Jogador J, Jogador array[]) {
-    for (int i = tam; i > 0; i--) {
-        array[i] = array[i - 1];
+int tam = 0, inicio = 0, fim = 0;
+
+void calcularMedia(Jogador *lista) {
+    int mediaAltura;
+    int soma = 0;
+    int quant = 0;
+
+    for (int i = inicio; i != fim; i = (i + 1) % 1000) {
+        int altura = atoi(lista[i].altura);
+        soma += altura;
+        quant++;
     }
-    array[0] = J;
-    tam++;
+    mediaAltura = soma / quant;
+    printf("%d\n", mediaAltura);
 }
 
-void inserirFinal(Jogador J, Jogador array[]) {
-    array[tam] = J;
-    tam++;
-}
-
-void inserir(int posicao, Jogador J, Jogador array[]) {
-    for (int i = tam; i > posicao; i--) {
-        array[i] = array[i - 1];
-    }
-    array[posicao] = J;
-    tam++;
-}
-
-void removerInicio(Jogador array[]) {
-    Jogador tmp = array[0];
-    for (int i = 0; i < tam - 1; i++) {
-        array[i] = array[i + 1];
-    }
+void removerMostrar(Jogador *lista) {
     tam--;
-    printf("(R) %s\n", tmp.nome);
+    printf("(R) %s\n", lista[inicio].nome);
+    inicio = (inicio + 1) % 1000;
 }
 
-void removerFinal(Jogador array[]) {
-    Jogador tmp = array[tam - 1];
-    array[tam - 1] = (Jogador){0, '\0', 0, 0, '\0', 0, '\0', '\0'};
+void remover(Jogador *lista) {
     tam--;
-    printf("(R) %s\n", tmp.nome);
+    inicio = (inicio + 1) % 1000;
 }
 
-void remover(int pos, Jogador array[]) {
-    Jogador tmp = array[pos];
-    for (int i = pos; i < tam - 1; i++)
-    {
-        array[i] = array[i + 1];
+
+void inserir(Jogador player, Jogador *lista) {   
+    if (tam==5){
+        remover(lista);
     }
-    array[tam - 1] = (Jogador){0, '\0', 0, 0, '\0', 0, '\0', '\0'};
-    tam--;
-    printf("(R) %s\n", tmp.nome);
+    tam++;
+    if ((fim+1) % 1000 == inicio) {// lista cheia
+        return;
+    }
+    
+    lista[fim] = player;
+    fim = (fim + 1) % 1000;
 }
 
 // MAIN ---------------------------------------------------------------------------------------------------------------------
@@ -190,15 +181,14 @@ int main (void) {
     
     // input de jogadores
     for (int i = 0; 1; i++) {
-        size = i;
         char input[100];
         scanf("%s", input);
         if (strcmp(input, "FIM") == 0) {
             break;
         } else {
             int id = atoi(input);
-            tam++;
-            lista[i] = clone(&jogadores[id]);
+            inserir(jogadores[id], lista);
+            calcularMedia(lista);
         }
     }
 
@@ -209,33 +199,22 @@ int main (void) {
         char comando[10];
         scanf("%s", comando);
 
-        if (strcmp(comando, "II") == 0) {
+        if (strcmp(comando, "I") == 0) {
             int id;
             scanf("%d", &id);
-            inserirInicio(jogadores[id], lista);
-        } else if (strcmp(comando, "IF") == 0) {
-            int id;
-            scanf("%d", &id);
-            inserirFinal(jogadores[id], lista);
-        } else if (strcmp(comando, "I*") == 0) {
-            int pos, id;
-            scanf("%d %d", &pos, &id);
-            inserir(pos, jogadores[id], lista);
-        } else if (strcmp(comando, "RI") == 0) {
-            removerInicio(lista);
-        } else if (strcmp(comando, "RF") == 0) {
-            removerFinal(lista);
-        }
-        else if (strcmp(comando, "R*") == 0) {
+            inserir(jogadores[id], lista);
+            calcularMedia(lista);
+        } else if (strcmp(comando, "R") == 0) {
             int pos;
             scanf("%d", &pos);
-            remover(pos, lista);
+            removerMostrar(lista);
         }
     }
 
     // saida
-    for (int i = 0; i < tam; i++) {
-        imprimir(lista[i], i);
+    int count = 0;
+    for (int i = inicio; i != fim; i = (i + 1) % 1000, count++) {
+        imprimir(lista[i], count);
     }
 
     // fechamento arquivo
