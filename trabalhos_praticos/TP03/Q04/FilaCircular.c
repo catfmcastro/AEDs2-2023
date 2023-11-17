@@ -14,6 +14,7 @@ AEDs II
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 // JOGADOR ---------------------------------------------------------------------------------------------------------------------
 typedef struct Jogador {
@@ -126,7 +127,7 @@ void calcularMedia(Jogador *lista) {
         soma += altura;
         quant++;
     }
-    mediaAltura = soma / quant;
+    mediaAltura = round((float)soma / (float)quant);
     printf("%d\n", mediaAltura);
 }
 
