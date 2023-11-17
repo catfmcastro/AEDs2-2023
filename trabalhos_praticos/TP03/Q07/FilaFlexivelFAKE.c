@@ -7,14 +7,13 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// fila flexível de registros de jogadores
+// fila flexivel sequencial de registros de jogadores
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <math.h>
 
 // JOGADOR ---------------------------------------------------------------------------------------------------------------------
 typedef struct Jogador {
@@ -113,73 +112,48 @@ void swap(int *x, int *y) {
     *y = tmp;
 }
 
-// LISTA FLEXÍVEL ---------------------------------------------------------------------------------------------------------------
+// LISTA CIRULAR ---------------------------------------------------------------------------------------------------------------
 
-typedef struct Celula {
-    Jogador elemento;
-    Celula *prox;
-} Celula;
+int tam = 0, inicio = 0, fim = 0;
 
-Celula *setCelula (Jogador elemento) {
-    Celula *tmp = (Celula*) malloc(sizeof(Celula));
-    tmp->elemento = elemento;
-    tmp->prox = NULL;
-    return tmp;
-}
+void calcularMedia(Jogador *lista) {
+    int mediaAltura;
+    int soma = 0;
+    int quant = 0;
 
-Celula *primeiro;
-Celula *ultimo;
-int tam;
-
-void iniciarLista () {
-    Jogador aux;
-    primeiro = setCelula(aux);
-    ultimo = primeiro;
-}
-
-// insere elementos no fim da fila
-void inserir(Jogador x) {
-    if (tam < 5) {
-        Celula *tmp = setCelula(x);
-        ultimo->prox = tmp;
-        ultimo = ultimo->prox;
-        tam++;
-    } else {
-        remover();
-        tam--;
-        inserir(x);
+    for (int i = inicio; i != fim; i = (i + 1) % 1000) {
+        int altura = atoi(lista[i].altura);
+        soma += altura;
+        quant++;
     }
+    mediaAltura = soma / quant;
+    printf("%d\n", mediaAltura);
 }
 
-// remove elementos do início da fila
-void remover() {
-    if(primeiro == ultimo) {
+void removerMostrar(Jogador *lista) {
+    tam--;
+    printf("(R) %s\n", lista[inicio].nome);
+    inicio = (inicio + 1) % 1000;
+}
+
+void remover(Jogador *lista) {
+    tam--;
+    inicio = (inicio + 1) % 1000;
+}
+
+
+void inserir(Jogador player, Jogador *lista) {   
+    if (tam==5){
+        remover(lista);
+    }
+    tam++;
+    if ((fim+1) % 1000 == inicio) {// lista cheia
         return;
     }
-
-    Celula *tmp = primeiro->prox;
-
-    primeiro->prox = tmp->prox;
-    tmp->prox = NULL;
-    free(tmp);
-    tmp = NULL;
-
     
+    lista[fim] = player;
+    fim = (fim + 1) % 1000;
 }
-
-// void calcularMedia() {
-//     int mediaAltura;
-//     int soma = 0;
-//     int quant = 0;
-
-//     for (Celula *tmp = primeiro; tmp != ultimo; tmp = tmp.prox) {
-//         int altura = atoi(lista[i].altura);
-//         soma += altura;
-//         quant++;
-//     }
-//     mediaAltura = round((float)soma / (float)quant);
-//     printf("%d\n", mediaAltura);
-// }
 
 // MAIN ---------------------------------------------------------------------------------------------------------------------
 int main (void) {
@@ -205,8 +179,6 @@ int main (void) {
     lista = malloc(sizeof(Jogador) * 1000);
     int size = 0;
     
-    iniciarLista();
-
     // input de jogadores
     for (int i = 0; 1; i++) {
         char input[100];
@@ -215,7 +187,7 @@ int main (void) {
             break;
         } else {
             int id = atoi(input);
-            inserir(jogadores[id]);
+            inserir(jogadores[id], lista);
             calcularMedia(lista);
         }
     }
@@ -230,7 +202,7 @@ int main (void) {
         if (strcmp(comando, "I") == 0) {
             int id;
             scanf("%d", &id);
-            inserir(jogadores[id]);
+            inserir(jogadores[id], lista);
             calcularMedia(lista);
         } else if (strcmp(comando, "R") == 0) {
             int pos;
@@ -241,11 +213,8 @@ int main (void) {
 
     // saida
     int count = 0;
-    Celula *tmp = primeiro;
-    while(tmp != NULL){
-        imprimir(tmp->elemento, count);
-        count++;
-        tmp = tmp->prox;
+    for (int i = inicio; i != fim; i = (i + 1) % 1000, count++) {
+        imprimir(lista[i], count);
     }
 
     // fechamento arquivo

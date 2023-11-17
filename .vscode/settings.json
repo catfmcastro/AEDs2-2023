@@ -2,5 +2,8 @@
     "java.project.sourcePaths": [
         "provas/WarmUp02",
         "trabalhos_praticos/TP03/Q01"
-    ]
+    ],
+    "files.associations": {
+        "time.h": "c"
+    }
 }
