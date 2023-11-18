@@ -115,10 +115,11 @@ void swap(int *x, int *y) {
 
 // LISTA FLEXÍVEL ---------------------------------------------------------------------------------------------------------------
 
-typedef struct Celula {
+typedef struct Celula Celula;
+struct Celula {
     Jogador elemento;
     Celula *prox;
-} Celula;
+};
 
 Celula *setCelula (Jogador elemento) {
     Celula *tmp = (Celula*) malloc(sizeof(Celula));
@@ -132,23 +133,11 @@ Celula *ultimo;
 int tam;
 
 void iniciarLista () {
-    Jogador aux;
-    primeiro = setCelula(aux);
+    Jogador tmp;
+    Celula *aux = setCelula(tmp);
+    primeiro = aux;
     ultimo = primeiro;
-}
-
-// insere elementos no fim da fila
-void inserir(Jogador x) {
-    if (tam < 5) {
-        Celula *tmp = setCelula(x);
-        ultimo->prox = tmp;
-        ultimo = ultimo->prox;
-        tam++;
-    } else {
-        remover();
-        tam--;
-        inserir(x);
-    }
+    tam = 0;
 }
 
 // remove elementos do início da fila
@@ -157,29 +146,76 @@ void remover() {
         return;
     }
 
-    Celula *tmp = primeiro->prox;
+    Celula *tmp = primeiro;
+    primeiro = primeiro->prox;
 
-    primeiro->prox = tmp->prox;
-    tmp->prox = NULL;
+    if (tmp == ultimo) {
+        ultimo = primeiro;
+    }
+
+    printf("(R) %s\n", tmp->elemento.nome);
+
     free(tmp);
-    tmp = NULL;
-
-    
+    tam--;
 }
 
-// void calcularMedia() {
-//     int mediaAltura;
-//     int soma = 0;
-//     int quant = 0;
+// remove elementos do início da fila
+void removerSemMostrar() {
+    if(primeiro == ultimo) {
+        return;
+    }
 
-//     for (Celula *tmp = primeiro; tmp != ultimo; tmp = tmp.prox) {
-//         int altura = atoi(lista[i].altura);
-//         soma += altura;
-//         quant++;
-//     }
-//     mediaAltura = round((float)soma / (float)quant);
-//     printf("%d\n", mediaAltura);
-// }
+    Celula *tmp = primeiro;
+    primeiro = primeiro->prox;
+
+    if (tmp == ultimo) {
+        ultimo = primeiro;
+    }
+
+    free(tmp);
+    tam--;
+}
+
+// insere elementos no fim da fila
+void inserir(Jogador x) {
+    Celula *tmp = setCelula(x);
+    
+    if (primeiro == NULL) {
+        primeiro = tmp;
+        ultimo = tmp;
+    } else {
+        if (tam < 5) {
+        ultimo->prox = tmp;
+        ultimo = ultimo->prox;
+        tam++;
+    } else {
+        removerSemMostrar();
+        ultimo->prox = tmp;
+        ultimo = ultimo->prox;
+        tam++;
+    }
+    }
+}
+
+void calcularMedia() {
+    int mediaAltura;
+    int soma = 0;
+    int quant = 0;
+
+    Celula *tmp = primeiro->prox;
+    
+    for (int i = 0; i < tam; i++) {
+        int altura = atoi(tmp->elemento.altura);
+        soma += altura;
+        quant++;
+        tmp = tmp->prox;
+    }
+
+    if (quant != 0) {
+        mediaAltura = round((float)soma / (float)quant);
+        printf("%d\n", mediaAltura);
+    }
+}
 
 // MAIN ---------------------------------------------------------------------------------------------------------------------
 int main (void) {
@@ -201,8 +237,7 @@ int main (void) {
         addJogador(&jogadores[i], dados);
     }
 
-    Jogador *lista;
-    lista = malloc(sizeof(Jogador) * 1000);
+    Jogador *jogador;
     int size = 0;
     
     iniciarLista();
@@ -216,7 +251,7 @@ int main (void) {
         } else {
             int id = atoi(input);
             inserir(jogadores[id]);
-            calcularMedia(lista);
+            calcularMedia();
         }
     }
 
@@ -231,11 +266,9 @@ int main (void) {
             int id;
             scanf("%d", &id);
             inserir(jogadores[id]);
-            calcularMedia(lista);
+            calcularMedia();
         } else if (strcmp(comando, "R") == 0) {
-            int pos;
-            scanf("%d", &pos);
-            removerMostrar(lista);
+            remover();
         }
     }
 

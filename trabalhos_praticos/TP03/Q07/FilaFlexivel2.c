@@ -7,7 +7,7 @@ Catarina F. M. Castro
 AEDs II
 */
 
-// fila flexivel de registros de jogadores
+// fila flexível de registros de jogadores
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -113,56 +113,112 @@ void swap(int *x, int *y) {
     *y = tmp;
 }
 
-// FILA FLEXIVEL ---------------------------------------------------------------------------------------------------------------------
+// LISTA FLEXÍVEL ---------------------------------------------------------------------------------------------------------------
 
-typedef struct Celula {
-  Jogador elemento;
-  struct Celula *prox;
-} Celula;
+typedef struct Celula Celula;
+struct Celula {
+    Jogador elemento;
+    Celula *prox;
+};
 
-typedef struct Pilha {
-  Celula *topo;
-} Pilha;
-
-void criarPilha(Pilha *pilha) {
-  pilha->topo = NULL;
+Celula *setCelula (Jogador elemento) {
+    Celula *tmp = (Celula*) malloc(sizeof(Celula));
+    tmp->elemento = elemento;
+    tmp->prox = NULL;
+    return tmp;
 }
 
-void remover(Pilha *pilha) {
-  if (pilha->topo == NULL) {
-    return;
-  }
+Celula *primeiro;
+Celula *ultimo;
+int tam;
 
-  printf("(R) %s\n", pilha->topo->elemento.nome);
-  Celula *temp = pilha->topo;
-  pilha->topo = pilha->topo->prox;
-  free(temp);
+void iniciarLista () {
+    Jogador tmp;
+    Celula *aux = setCelula(tmp);
+    primeiro = aux;
+    ultimo = primeiro;
+    tam = 0;
 }
 
-void inserir(Jogador x, Pilha *Pilha) {
-    Celula *tmp = malloc(sizeof(Celula));
-    tmp->elemento = x;
-    tmp->prox = Pilha->topo;
-    Pilha->topo = tmp;
-}
-
-void calcularMedia(Jogador *pilha) {
-    int media;
-    int soma = 0;
-    int quantidade = 0;
-    for (; ; i = (i + 1) % 1000)
-    {
-        int altura = atoi(pilha[i].altura);
-        soma += altura;
-        quantidade++;
+// remove elementos do início da fila
+void remover() {
+    if(primeiro == ultimo) {
+        return;
     }
-    media = soma / quantidade;
-    printf("%d\n", media);
+
+    Celula *tmp = primeiro->prox;
+    primeiro = tmp->prox;
+
+    if (tmp == ultimo) {
+        ultimo = primeiro;
+    }
+
+    printf("(R) %s\n", tmp->elemento.nome);
+
+    free(tmp);
+    tam--;
+}
+
+// remove elementos do início da fila
+void removerSemMostrar() {
+    if(primeiro == ultimo) {
+        return;
+    }
+
+    Celula *tmp = primeiro;
+    primeiro = primeiro->prox;
+
+    if (tmp == ultimo) {
+        ultimo = primeiro;
+    }
+
+    free(tmp);
+    tam--;
+}
+
+// insere elementos no fim da fila
+void inserir(Jogador x) {
+    Celula *tmp = setCelula(x);
+    
+    if (primeiro->prox == NULL) {
+        primeiro = tmp;
+        ultimo = tmp;
+    } else {
+        if (tam < 5) {
+        ultimo->prox = tmp;
+        ultimo = ultimo->prox;
+        tam++;
+    } else {
+        removerSemMostrar();
+        ultimo->prox = tmp;
+        ultimo = ultimo->prox;
+        tam++;
+    }
+    }
+}
+
+void calcularMedia() {
+    int mediaAltura;
+    int soma = 0;
+    int quant = 0;
+
+    Celula *tmp = primeiro->prox;
+    
+    for (int i = 0; i < tam; i++) {
+        int altura = atoi(tmp->elemento.altura);
+        soma += altura;
+        quant++;
+        tmp = tmp->prox;
+    }
+
+    if (quant != 0) {
+        mediaAltura = round((float)soma / (float)quant);
+        printf("%d\n", mediaAltura);
+    }
 }
 
 // MAIN ---------------------------------------------------------------------------------------------------------------------
-
-int main() {
+int main (void) {
     long start = clock();
     char csvData[600];
     Jogador jogadores[3922];
@@ -181,50 +237,52 @@ int main() {
         addJogador(&jogadores[i], dados);
     }
 
-    // criação da pilha
-    Pilha *Pilha = malloc(sizeof(Pilha)); 
-    criarPilha(Pilha);
-  
-    // input
+    Jogador *jogador;
+    int size = 0;
+    
+    iniciarLista();
+
+    // input de jogadores
     for (int i = 0; 1; i++) {
         char input[100];
         scanf("%s", input);
         if (strcmp(input, "FIM") == 0) {
             break;
-        }
-        int id = atoi(input);
-        inserir(jogadores[id],Pilha);             
-        calcularMedia(Pilha);
-    }
-
-    int quantidade;
-    scanf("%d", &quantidade);
-  
-    for (int i = 0; i < quantidade; i++) {
-        char input[10];
-        scanf("%s", input);
-
-        if (strcmp(input, "I") == 0) {
-        int id;
-        scanf("%d", &id);
-        inserir(jogadores[id],Pilha);
-
-        calcularMedia(Pilha);
-        }
-
-        else if (strcmp(input, "R") == 0) {
-        remover(Pilha);
+        } else {
+            int id = atoi(input);
+            inserir(jogadores[id]);
+            calcularMedia();
         }
     }
 
+    // comandos
+    int n;
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        char comando[10];
+        scanf("%s", comando);
+
+        if (strcmp(comando, "I") == 0) {
+            int id;
+            scanf("%d", &id);
+            inserir(jogadores[id]);
+            calcularMedia();
+        } else if (strcmp(comando, "R") == 0) {
+            remover();
+        }
+    }
+
+    // saida
     int count = 0;
-    Celula *temp = Pilha->topo;
-    while(temp != NULL){
-        imprimir(temp->elemento, count);
+    Celula *tmp = primeiro->prox;
+    while(tmp != NULL){
+        imprimir(tmp->elemento, count);
         count++;
-        temp = temp->prox;
+        tmp = tmp->prox;
     }
 
+    // fechamento arquivo
     fclose(arq);
+
     return 0;
 }
