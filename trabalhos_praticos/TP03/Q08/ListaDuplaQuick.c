@@ -213,13 +213,13 @@ void sort(int esq, int dir) {
 
     comp++;
     while (i <= j) {
-    while ((strcmp(lista[i].estadoNascimento, "nao informado") == 0 ? __INT_MAX__ : strcmp(lista[i].estadoNascimento, pivo.estadoNascimento)) < 0 
-        || (strcmp(lista[i].estadoNascimento, pivo.estadoNascimento) == 0 && strcmp(lista[i].nome, pivo.nome) < 0)) {
-            i++;
-        }
+        while (strcmp(lista[i].estadoNascimento, pivo.estadoNascimento) < 0 
+                || (strcmp(lista[i].estadoNascimento, pivo.estadoNascimento) == 0 && strcmp(lista[i].nome, pivo.nome) < 0)) {
+                i++;
+            }
 
-        while ((strcmp(lista[j].estadoNascimento, "nao informado") == 0 ? __INT_MAX__ : strcmp(lista[j].estadoNascimento, pivo.estadoNascimento)) > 0 
-        || (strcmp(lista[j].estadoNascimento, pivo.estadoNascimento) == 0 && strcmp(lista[j].nome, pivo.nome) > 0)) {
+        while (strcmp(lista[j].estadoNascimento, pivo.estadoNascimento) > 0 
+            || (strcmp(lista[j].estadoNascimento, pivo.estadoNascimento) == 0 && strcmp(lista[j].nome, pivo.nome) > 0)) {
             j--;
         }
 
@@ -268,7 +268,7 @@ int main (void) {
 
     // leitura de arquivo csv
     // /tmp/
-    FILE *arq = fopen("players.csv", "r");
+    FILE *arq = fopen("/tmp/players.csv", "r");
     fgets(csvData, sizeof(csvData), arq);
     for (int i = 0; fgets(csvData, 600, arq) != NULL; i++) {
         char *frase = linhaCsv(csvData);
