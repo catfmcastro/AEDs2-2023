@@ -46,55 +46,62 @@ class Matriz {
         criarMat();
     }
 
-    // aloca espaços para a matriz
-    public void criarMat() {
-        // cria o primeiro elemento
-        if (inicio == null) {
-            inicio = new Celula();
-        }
-
-        // cria linhas
+    public void alocarLinhas() {
         Celula tmp = inicio;
-        for (int j = 1; j < linha; j++) {
-            Celula novaCelula = new Celula();
-            tmp.inf = novaCelula;
-            novaCelula.sup = tmp;
-            tmp = novaCelula;
-        }
-
-        // criar colunas
-        tmp = inicio;
-        Celula tmp2 = inicio.inf;
-        for (int i = 0; i < linha; i++) {
-            tmp.inf = tmp2;
-            tmp2.sup = tmp;
-
-            // criar colunas
-            for (int j = 0; j < coluna; j++) {
-                Celula acima;
-                Celula abaixo = new Celula();
-                if (tmp.dir == null) {
-                    acima = tmp.dir;
-                } else {
-                    acima = new Celula();
-                    tmp.dir = acima;
-                    acima.esq = tmp;
-                }
-
-                acima.inf = abaixo;
-                abaixo.sup = acima;
-                abaixo.esq = tmp2;
-                tmp2.dir = abaixo;
-
-                tmp = acima;
-                tmp2 = abaixo;
-            }
-
-            // desloca os ponteiros para baixo
-            tmp = tmp2;
-            tmp2 = tmp2.inf;
+        for (int i = 1; i < linha; i++) {
+            Celula nova = new Celula(1);
+            tmp.inf = nova;
+            nova.sup = tmp;
+            tmp = nova;
         }
     }
+
+    public void alocarColunas(Celula c1, Celula c2) {
+        for (int i = 1; i < coluna; i++) {
+            Celula proxC1;
+            Celula proxC2 = new Celula(1);
+
+            // set proxC1 a direita de c1
+            if (c1.dir != null) { // elem. a direita de c1 ja existe
+                proxC1 = c1.dir;
+            } else { // elem. a direita de c1 ainda não existe
+                proxC1 = new Celula(1);
+                c1.dir = proxC1;
+                proxC1.esq = c1; 
+            }
+
+            // set proxC2 a direita de C2 e abaixo de proxC1
+            proxC1.inf = proxC2;
+            c2.dir = proxC2;
+            proxC2.esq = c2;
+            proxC2.sup = proxC1;
+            
+            // caminhamento para os elementos a direita
+            c1 = proxC1;
+            c2 = proxC2;
+        }
+    }
+
+    // aloca espaços para a matriz
+    public void criarMat() {
+        if (inicio == null) {
+            inicio = new Celula(); // cria o primeiro elemento
+        }
+
+        alocarLinhas(); // cria linhas
+
+        // criar colunas
+        Celula c1 = inicio; // celula na linha acima
+        Celula c2 = inicio.inf; // linha abaixo
+        for (int i = 1; i < linha; i++) {
+            c1.inf = c2;
+            c2.sup = c1;
+            alocarColunas(c1, c2);
+            c1 = c2;
+            c2 = c2.inf;
+        }
+    }
+    
 
     // insere elemento com base na posicao
     public void setPos(int l, int c, int x) {
@@ -150,13 +157,8 @@ class Matriz {
 
     // imprime a matriz completa
     public void imprimeMatriz() {
-        Celula l = inicio;
-        Celula c;
-
-        for (; l != null; l = l.inf) {
-            c = l;
-
-            for (; c != null; c = c.dir) {
+        for (Celula l = inicio; l != null; l = l.inf) { // caminha linhas
+            for (Celula c = l; c != null; c = c.dir) { // caminha colunas
                 System.out.print(c.elemento + " ");
             }
             System.out.println();
@@ -189,7 +191,11 @@ class Matriz {
 
         while (tmp != null) {
             System.out.print(tmp.elemento + " ");
-            tmp = tmp.inf.esq;
+            if(tmp.inf != null) {
+                tmp = tmp.inf.esq;
+            } else {
+                tmp = null;
+            }
         }
         System.out.println();
     }
@@ -214,7 +220,7 @@ class Matriz {
             for (int j = 0; j < m2.coluna; j++) {
                 int conta = 0;
                 for (int k = 0; k < m1.coluna; k++) {
-                    conta += m1.getPos(i, k) * m2.getPos(i, k);
+                    conta += m1.getPos(i, k) * m2.getPos(k, j);
                 }
                 resp.setPos(i, j, conta);
             }
