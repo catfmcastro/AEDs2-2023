@@ -424,7 +424,7 @@ int main()
 
     // selection sort
     startTime = clock();
-    sort(0, tam-1);
+    sort(0, tam - 1);
     endTime = clock();
     tempo = endTime - startTime;
 
