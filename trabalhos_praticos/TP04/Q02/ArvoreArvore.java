@@ -236,29 +236,68 @@ class Arvore {
     }
 
     // pesquisar --------------------
-    public boolean pesquisarPrincipal(int x) {
+    // public boolean pesquisarPrincipal(int x) {
+    // System.out.print("raiz ");
+    // return pesquisarPrincipal(x, raiz);
+    // }
+
+    // private boolean pesquisarPrincipal(int x, No i) {
+    // boolean resp;
+    // if (i == null) {
+    // resp = false;
+    // comp++;
+
+    // } else if (x == i.key) {
+    // resp = true;
+    // comp++;
+
+    // } else if (x < i.key) {
+    // System.out.print("esq ");
+    // comp++;
+    // resp = pesquisarPrincipal(x, i.esq); // x é menor que i
+
+    // } else {
+    // System.out.print("dir ");
+    // resp = pesquisarPrincipal(x, i.dir); // x é maior que i
+    // }
+    // return resp;
+    // }
+
+    public boolean pesquisar(Jogador jogador) {
         System.out.print("raiz ");
-        return pesquisarPrincipal(x, raiz);
+        return pesquisar(jogador, raiz);
     }
 
-    private boolean pesquisarPrincipal(int x, No i) {
+    private boolean pesquisar(Jogador jogador, No no) {
         boolean resp;
-        if (i == null) {
+        if (no == null) {
             resp = false;
-            comp++;
 
-        } else if (x == i.key) {
-            resp = true;
-            comp++;
+        } else if (jogador.charAt(0) < no.elemento) {
+            resp = pesquisar(no.esq, jogador);
 
-        } else if (x < i.key) {
-            System.out.print("esq ");
-            comp++;
-            resp = pesquisarPrincipal(x, i.esq); // x é menor que i
+        } else if (jogador.charAt(0) > no.elemento) {
+            resp = pesquisar(no.dir, jogador);
 
         } else {
-            System.out.print("dir ");
-            resp = pesquisarPrincipal(x, i.dir); // x é maior que i
+            resp = pesquisarSegundaArvore(no.outro, jogador);
+        }
+        return resp;
+    }
+
+    private boolean pesquisarSegundaArvore(No2 no, String x) {
+        boolean resp;
+        if (no == null) {
+            resp = false;
+
+        } else if (x.compareTo(no.elemento) < 0) {
+            resp = pesquisarSegundaArvore(no.esq, x);
+
+        } else if (x.compareTo(no.elemento) > 0) {
+            resp = pesquisarSegundaArvore(no.dir, x);
+
+        } else {
+            resp = true;
         }
         return resp;
     }
@@ -276,22 +315,6 @@ class Arvore {
             caminharCentral(i.esq);
             System.out.print(i.key + " ");
             caminharCentral(i.dir);
-        }
-    }
-
-    // caminhamento pre --------------------
-    public void caminharPre() {
-        System.out.print("[ ");
-        caminharPre(raiz);
-        System.out.println("]");
-    }
-
-    private void caminharPre(No i) {
-        if (i != null) {
-            comp++;
-            System.out.print(i.key + " ");
-            caminharPre(i.esq);
-            caminharPre(i.dir);
         }
     }
 
@@ -314,7 +337,7 @@ class Arvore {
         inserirPrincipal(14);
     }
 
-    // inserirPrincipal elemento --------------------
+    // insere elementos na arvore --------------------
     public void inserirPrincipal(int x) throws Exception {
         raiz = inserirPrincipal(x, raiz);
     }
@@ -323,17 +346,14 @@ class Arvore {
         if (i == null) {
             comp++;
             i = new No(x); // insere na raiz, se estiver vazia
-            System.out.println(i.key + " ");
 
         } else if (x < i.key) {
             comp++;
             i.esq = inserirPrincipal(x, i.esq); // x é menor que i
-            System.out.println(i.key + " ");
 
         } else if (x > i.key) {
             comp++;
             i.dir = inserirPrincipal(x, i.dir); // x é maior que i
-            System.out.println(i.key + " ");
 
         } else {
             throw new Exception("Erro ao inserir!");
@@ -342,7 +362,43 @@ class Arvore {
         return i;
     }
 
-    // remover elemento --------------------
+    public void inserir(Jogador jogador) throws Exception {
+        inserir(jogador, raiz);
+    }
+
+    public void inserir(Jogador jogador, No i) throws Exception { // checa qual key o elemento deve ser inserido
+        if (i == null) {
+            throw new Exception("Erro ao inserir: elemento invalido!");
+
+        } else if ((jogador.getAltura()) % 15 < i.key) {
+            inserir(jogador, i.esq); // atributo < key -> chama metodo p esquerda
+
+        } else if ((jogador.getAltura()) % 15 > i.key) {
+            inserir(jogador, i.dir); // atributo > key -> chama metodo p direita
+
+        } else {
+            i.outro = inserir(jogador, i.outro);
+        }
+    }
+
+    public No2 inserir(Jogador jogador, No2 i) throws Exception { // insere elementos nas arvores menores
+        if (i == null) {
+            i = new No2(jogador);
+
+        } else if (jogador.getNome().compareTo(i.elemento.getNome()) < 0) {
+            i.esq = inserir(jogador, i.esq); // jogador < i
+
+        } else if (jogador.getNome().compareTo(i.elemento.getNome()) > 0) {
+            i.dir = inserir(jogador, i.dir); // jogador > i
+
+        } else {
+            throw new Exception("Erro ao inserir: elemento existente!");
+        }
+
+        return i;
+    }
+
+    // remover elemento da arvore de keys --------------------
     public void removerPrincipal(int x) throws Exception {
         raiz = removerPrincipal(x, raiz);
     }
@@ -394,7 +450,6 @@ class Arvore {
         }
         return j;
     }
-
 }
 
 public class ArvoreArvore {
@@ -444,15 +499,13 @@ public class ArvoreArvore {
         Arvore arvore = new Arvore();
 
         arvore.inciarArvore();
-        arvore.caminharCentral();
 
-// !! add jogadores na arvore secundaria
-        //// insere jogadores na lista
-        // while (!sc.hasNext("FIM")) {
-        //     int input = sc.nextInt();
-        //     int id = input;
-        //     arvore.inserirPrincipal(jogadores[id]);
-        // }
+        // insere jogadores em suas respectivas arvores
+        while (!sc.hasNext("FIM")) {
+            int input = sc.nextInt();
+            int id = input;
+            arvore.inserir(jogadores[id]);
+        }
 
         sc.nextLine();
         sc.nextLine();
@@ -460,17 +513,17 @@ public class ArvoreArvore {
         // inicio contagem de tempo --------------------
         long startTime = System.currentTimeMillis();
 
-        // while (!sc.hasNext("FIM")) {
-        //     String input = sc.nextLine();
-        //     System.out.print(input + " ");
-        //     boolean resp = arvore.pesquisar(input);
-        //     if (resp == true) {
-        //         System.out.print("SIM");
-        //     } else {
-        //         System.out.print("NAO");
-        //     }
-        //     System.out.println();
-        // }
+        while (!sc.hasNext("FIM")) {
+            String input = sc.nextLine();
+            System.out.print(input + " ");
+            boolean resp = arvore.pesquisar(input);
+            if (resp == true) {
+                System.out.print("SIM");
+            } else {
+                System.out.print("NAO");
+            }
+            System.out.println();
+        }
 
         long endTime = System.currentTimeMillis();
         // fim contagem de tempo --------------------
