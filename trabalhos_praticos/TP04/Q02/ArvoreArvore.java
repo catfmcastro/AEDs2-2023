@@ -272,80 +272,89 @@ class Arvore {
         return resp;
     }
 
-    private boolean pesquisar(Jogador jogador, No no, boolean resp) throws Exception{
+    private boolean pesquisar(Jogador jogador, No no, boolean resp) throws Exception {
 
-        if (jogador != null && resp != true) {
-            resp = pesquisarSegundaArvore(jogador, no.outro, resp); // pesquisa na arvore da key
+        // if (jogador != null && resp != true) {
+        // resp = pesquisarSegundaArvore(jogador, no.outro, resp); // pesquisa na arvore
+        // da key
 
-            if (resp != true) {
-                System.out.print("esq ");
-                resp = pesquisar(jogador, no.esq, resp);
+        // if (resp != true) {
+        // System.out.print("esq ");
+        // resp = pesquisar(jogador, no.esq, resp);
 
-                System.out.print("dir ");
-                resp = pesquisar(jogador, no.dir, resp);
-            }
-        } else {
-            throw new Exception("Não foi possível realizar a pesquisa na árvore principal.");
-        }
-
-        // if (no == null) {
-        //     comp++;
-        //     resp = false;
-
-        // } else if ((jogador.getAltura() % 15) < (no.key % 15)) {
-        //     comp += 2;
-        //     System.out.print("esq ");
-        //     resp = pesquisar(jogador, no.esq, resp);
-
-        // } else if ((jogador.getAltura() % 15) > (no.key % 15)) {
-        //     comp += 3;
-        //     System.out.print("dir ");
-        //     resp = pesquisar(jogador, no.dir, resp);
-
-        // } else {
-        //     comp += 3;
-        //     System.out.println("chamou pesquisa secundaria");
+        // System.out.print("dir ");
+        // resp = pesquisar(jogador, no.dir, resp);
         // }
+        // } else {
+        // throw new Exception("Não foi possível realizar a pesquisa na árvore
+        // principal.");
+        // }
+
+        if (no == null) {
+            comp++;
+            resp = false;
+
+        } else if ((jogador.getAltura() % 15) < (no.key % 15)) {
+            comp += 2;
+            System.out.print("esq ");
+            resp = pesquisar(jogador, no.esq, resp);
+
+        } else if ((jogador.getAltura() % 15) > (no.key % 15)) {
+            comp += 3;
+            System.out.print("dir ");
+            resp = pesquisar(jogador, no.dir, resp);
+
+        } else {
+            comp += 3;
+            resp = pesquisarSegundaArvore(jogador, no.outro, resp); // pesquisa na arvore da key
+        }
         return resp;
     }
 
     private boolean pesquisarSegundaArvore(Jogador jogador, No2 no, boolean resp) throws Exception {
         System.out.println("Chamada da pesquisa secundária realizada com sucesso!");
         System.out.println("o jogador sendo passado para a pesquisa secundária é: " + jogador.getNome());
-        if(no != null) {
-            if(jogador.getNome().equals(no.elemento.getNome())) {
+        System.out.println("o no sendo passado para a pesquisa secundaria é: " + no.elemento.getNome());
+        // if(no != null) {
+        // if(jogador.getNome().equals(no.elemento.getNome())) {
+        // resp = true;
+        // return resp;
+        // }
+
+        // System.out.print("ESQ ");
+        // resp = pesquisarSegundaArvore(jogador, no.esq, resp);
+
+        // System.out.print("DIR ");
+        // resp = pesquisarSegundaArvore(jogador, no.dir, resp);
+        // } else {
+        // throw new Exception("Não foi possível realizar a pesquisa na árvore
+        // secundária.");
+        // }
+        if (no.elemento != null) {
+
+            if (no == null) {
+                System.out.println("nao encontrou jogador/entrou só no primeiro if");
+                comp++;
+                resp = false;
+
+            } else if (jogador.getNome().compareTo(no.elemento.getNome()) < 0) {
+                comp += 2;
+                System.out.print("ESQ ");
+                resp = pesquisarSegundaArvore(jogador, no.esq, resp);
+
+            } else if (jogador.getNome().compareTo(no.elemento.getNome()) > 0) {
+                comp += 3;
+                System.out.print("DIR ");
+                resp = pesquisarSegundaArvore(jogador, no.dir, resp);
+
+            } else {
+                comp += 3;
                 resp = true;
-                return resp;
             }
-
-            System.out.print("ESQ ");
-            resp = pesquisarSegundaArvore(jogador, no.esq, resp);
-
-            System.out.print("DIR ");
-            resp = pesquisarSegundaArvore(jogador, no.dir, resp);
         } else {
-            throw new Exception("Não foi possível realizar a pesquisa na árvore secundária.");
+            throw new Exception("o nó2 passado possui o elemento nulo!");
         }
 
-        // if (no == null) {
-        //     System.out.println("nao encontrou jogador/entrou só no primeiro if");
-        //     comp++;
-        //     resp = false;
-
-        // } else if (jogador.getNome().compareTo(no.elemento.getNome()) < 0) {
-        //     comp += 2;
-        //     System.out.print("ESQ ");
-        //     resp = pesquisarSegundaArvore(jogador, no.esq, resp);
-
-        // } else if (jogador.getNome().compareTo(no.elemento.getNome()) > 0) {
-        //     comp += 3;
-        //     System.out.print("DIR ");
-        //     resp = pesquisarSegundaArvore(jogador, no.dir, resp);
-
-        // } else {
-        //     comp += 3;
-        //     resp = true;
-        // }
         return resp;
     }
 
@@ -367,7 +376,7 @@ class Arvore {
     }
 
     private void caminharCentralSecundario(No2 i) {
-            if (i != null) {
+        if (i != null) {
             comp++;
             caminharCentralSecundario(i.esq);
             System.out.println(i.elemento.getNome() + " ");
@@ -426,15 +435,17 @@ class Arvore {
     }
 
     public void inserir(Jogador jogador, No i) throws Exception { // checa em qual key o elemento deve ser inserido
+        int h = jogador.getAltura() % 15;
+
         if (i == null) {
             comp++;
             throw new Exception("Erro ao inserir: elemento invalido!");
 
-        } else if ((jogador.getAltura()) % 15 < (i.key % 15)) {
+        } else if (h < (i.key % 15)) {
             comp += 2;
             inserir(jogador, i.esq); // atributo < key -> chama metodo p esquerda
 
-        } else if ((jogador.getAltura()) % 15 > (i.key % 15)) {
+        } else if (h > (i.key % 15)) {
             comp += 3;
             inserir(jogador, i.dir); // atributo > key -> chama metodo p direita
 
@@ -581,7 +592,7 @@ public class ArvoreArvore {
         sc.nextLine();
 
         // // !! testando
-        //     arvore.caminharCentralPrincipal();
+        // arvore.caminharCentralPrincipal();
         // // !! testando
 
         // inicio contagem de tempo --------------------
@@ -591,7 +602,7 @@ public class ArvoreArvore {
             String input = sc.nextLine();
             System.out.print(input + " ");
             Jogador tmp = new Jogador();
-            for(int i = 0; i < jogadores.length; i++) {
+            for (int i = 0; i < jogadores.length; i++) {
                 if (jogadores[i].getNome().equals(input)) {
                     tmp.clone(jogadores[i]);
                     i = jogadores.length;
