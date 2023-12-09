@@ -330,9 +330,6 @@ public class HashReserva {
         sc.nextLine();
         sc.nextLine();
 
-        // // ! testando
-        // hash.mostrar();
-
         // inicio contagem de tempo --------------------
         long startTime = System.currentTimeMillis();
 
