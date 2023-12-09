@@ -184,7 +184,6 @@ class Hash {
 
     Jogador tabela[];
     int m1, m2, m, reserva;
-    final Jogador nulo = new Jogador();
 
     public Hash() {
         this(21, 9);
@@ -196,21 +195,21 @@ class Hash {
         this.m = m1 + m2;
         this.tabela = new Jogador[this.m];
         for (int i = 0; i < m1; i++) {
-            tabela[i] = nulo;
+            tabela[i] = null;
         }
         this.reserva = 0;
     }
 
     public int h(Jogador x) {
-        return x.getAltura() % 21;
+        return Math.abs(x.getAltura()) % 21;
     }
 
     public boolean inserir(Jogador x) {
         boolean resp = false;
-        if (x != nulo) {
+        if (x != null) {
             comp++;
             int pos = h(x);
-            if (tabela[pos] == nulo) {
+            if (tabela[pos] == null) {
                 comp++;
                 tabela[pos] = x;
                 resp = true;
@@ -238,18 +237,32 @@ class Hash {
 
     private boolean pesquisar(Jogador x, boolean resp) {
         int pos = h(x);
-        if (tabela[pos] == x) {
+        if (tabela[pos] != null && tabela[pos].getNome().equals(x.getNome())) {
             comp++;
             resp = true;
-        } else if (tabela[pos] != nulo) {
+        } else if (tabela[pos] != null) {
             for (int i = 0; i < reserva; i++) {
-                if (tabela[m1 + i] == x) {
+                if (tabela[m1 + i].getNome().equals(x.getNome())) {
                     resp = true;
                     i = reserva;
                 }
             }
         }
         return resp;
+    }
+
+    public void mostrar() {
+        System.out.println("os jogadores inseridos no hash são: ");
+        for (int i = 0; i < m1; i++) {
+            System.out.println(tabela[i].getNome());
+        }
+
+        System.out.println();
+        System.out.println("e na reserva são: ");
+
+        for (int i = 0; i < reserva; i++) {
+            System.out.println(tabela[m1 + i].getNome());
+        }
     }
 
     // cria arquivo de log
@@ -294,7 +307,7 @@ public class HashReserva {
         Scanner sc = new Scanner(System.in);
 
         // /tmp/
-        String[] csvData = lerCsv("players.csv");
+        String[] csvData = lerCsv("/tmp/players.csv");
 
         // array com todos os jogadores
         Jogador[] jogadores = new Jogador[csvData.length];
@@ -316,6 +329,9 @@ public class HashReserva {
 
         sc.nextLine();
         sc.nextLine();
+
+        // // ! testando
+        // hash.mostrar();
 
         // inicio contagem de tempo --------------------
         long startTime = System.currentTimeMillis();
