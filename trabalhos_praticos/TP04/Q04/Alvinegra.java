@@ -286,19 +286,17 @@ class Arvore {
             if (x.getNome().compareTo(raiz.elemento.getNome()) > 0) {
                 comp++;
                 raiz.dir = new No(x);
-            } else if (x.getNome().compareTo(raiz.dir.elemento.getNome()) > 0) {
-                comp += 2;
-                raiz.dir = new No(raiz.elemento);
-                raiz.elemento = x;
             } else {
                 comp += 2;
                 raiz.dir = new No(raiz.elemento);
-                raiz.elemento = raiz.esq.elemento;
-                raiz.esq.elemento = x;
+                if (x.getNome().compareTo(raiz.elemento.getNome()) > 0) {
+                    raiz.elemento = x;
+                } else {
+                    raiz.elemento = raiz.esq.elemento;
+                    raiz.esq.elemento = x;
+                }
             }
             raiz.esq.cor = raiz.dir.cor = false;
-
-            // arvore tem tres ou mais elementos
         } else {
             comp += 3;
             inserir(x, null, null, null, raiz);
