@@ -1,22 +1,9 @@
-/*
-Trabalho Prático 04
-
-@catfmcastro
-Catarina F. M. Castro
-
-AEDs II
-*/
-
-// árvore alv em C, com inserções de objetos jogador com base no atributo nome
-
-#include <stdio.h>
-#include <string.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <math.h>
 
 // JOGADOR ------------------------------------------------------------------------------------------------------------
 typedef struct Jogador
@@ -33,10 +20,9 @@ typedef struct Jogador
 
 Jogador clone(Jogador *jogador)
 {
-    Jogador novo = *jogador;
-    return novo;
+    Jogador tmp = *jogador;
+    return tmp;
 }
-
 void ler(Jogador *j, char *frase) {}
 
 void imprimir(Jogador jogador, int pos)
@@ -44,16 +30,16 @@ void imprimir(Jogador jogador, int pos)
     int altura = atoi(jogador.altura);
     int peso = atoi(jogador.peso);
     int anoNascimento = atoi(jogador.anoNascimento);
-
     printf("[%d] ## %s ## %d ## %d ## %d ## %s ## %s ## %s ##\n", pos,
            jogador.nome, altura, peso, anoNascimento, jogador.universidade,
            jogador.cidadeNascimento, jogador.estadoNascimento);
 }
 
-char *linhaCsv(char *frase)
+char *linhasCsv(char *frase)
 {
-    char noInfo[] = "nao informado";
+    char data[] = "nao informado";
     char *novaFrase = malloc(sizeof(char) * 200);
+
     if (novaFrase == NULL)
     {
         return NULL;
@@ -66,45 +52,46 @@ char *linhaCsv(char *frase)
         if (frase[i] == ',' && frase[i + 1] == ',')
         {
             strcat(novaFrase, ",");
-            strcat(novaFrase, noInfo);
+            strcat(novaFrase, data);
         }
         else if (frase[i] == ',' && frase[i + 2] == '\0')
         {
             strcat(novaFrase, ",");
-            strcat(novaFrase, noInfo);
+            strcat(novaFrase, data);
         }
         else
         {
-            char tmp[2] = {frase[i], '\0'};
-            strcat(novaFrase, tmp);
+            char temp[2] = {frase[i], '\0'};
+            strcat(novaFrase, temp);
         }
     }
 
     return novaFrase;
 }
 
-void addJogador(Jogador *jogador, char tokens[8][100])
+void addJogador(Jogador *player, char tokens[8][100])
 {
-    jogador->id = atoi(tokens[0]);
-    strcpy(jogador->nome, tokens[1]);
-    strcpy(jogador->altura, tokens[2]);
-    strcpy(jogador->peso, tokens[3]);
-    strcpy(jogador->universidade, tokens[4]);
-    strcpy(jogador->anoNascimento, tokens[5]);
-    strcpy(jogador->cidadeNascimento, tokens[6]);
-    strcpy(jogador->estadoNascimento, tokens[7]);
+    player->id = atoi(tokens[0]);
+    strcpy(player->nome, tokens[1]);
+    strcpy(player->altura, tokens[2]);
+    strcpy(player->peso, tokens[3]);
+    strcpy(player->universidade, tokens[4]);
+    strcpy(player->anoNascimento, tokens[5]);
+    strcpy(player->cidadeNascimento, tokens[6]);
+    strcpy(player->estadoNascimento, tokens[7]);
 }
 
-void split(const char *str, char delimiter, char tokens[8][100])
+void split(const char *str, char delimitador, char tokens[8][100])
 {
     int l = 0;
     int index = 0;
+
     while (l < 8)
     {
         int i = 0;
         while (1)
         {
-            if (str[index] == delimiter || str[index] == '\0' || str[index] == '\n')
+            if (str[index] == delimitador || str[index] == '\0' || str[index] == '\n')
             {
                 tokens[l][i] = '\0';
                 break;
@@ -113,176 +100,174 @@ void split(const char *str, char delimiter, char tokens[8][100])
             i++;
             index++;
         }
+
         index++;
         l++;
     }
 }
 
-// ARVORE ------------------------------------------------------------------------------------------------------------
+// ARVORE AVL ------------------------------------------------------------------------------------------------
 int comp = 0;
 typedef struct No
 {
-    Jogador *elemento;
+    Jogador *jogador;
     struct No *esq;
     struct No *dir;
 } No;
 
-typedef struct Arvore
-{
-    No *raiz;
-} Arvore;
-
-No *balancEsq(No *raiz);
-No *balancDir(No *raiz);
-
 No *iniciarRaiz(Jogador *x)
 {
-    No *no = (No *)malloc(sizeof(No));
-    no->elemento = x;
+    No *no = malloc(sizeof(No));
+    no->jogador = x;
     no->esq = NULL;
     no->dir = NULL;
     return no;
 }
 
-void inicializar(Arvore *arvore)
+typedef struct AVL
 {
-    arvore->raiz = NULL;
-}
+    No *raiz;
+} AVL;
+
+No *balancEsq(No *raiz);
+No *balanceDir(No *raiz);
+No *balancear(No *raiz);
+No *inserirNo(No *raiz, Jogador *jogador);
+void pesquisarPriv(No *raiz, char *nome);
+void pesquisar(AVL *arvore, char *nome);
+void incializar(AVL *arvore) { arvore->raiz = NULL; }
 
 int getAltura(No *raiz)
 {
-    int h = 0;
     if (raiz == NULL)
     {
-        h = 0;
         comp++;
+        return 0;
     }
-    else
-    {
-        comp++;
-        int alturaDir = (raiz->dir) ? getAltura(raiz->dir) : 0;
-        int alturaEsq = (raiz->esq) ? getAltura(raiz->esq) : 0;
-        h = (alturaEsq > alturaDir) ? alturaEsq + 1 : alturaDir + 1;
-    }
-    return h;
+    int alturaDir = (raiz->dir) ? getAltura(raiz->dir) : 0;
+    int alturaEsq = (raiz->esq) ? getAltura(raiz->esq) : 0;
+    comp += 4;
+    return (alturaEsq > alturaDir) ? alturaEsq + 1 : alturaDir + 1;
 }
 
 No *balancEsq(No *raiz)
 {
     if (getAltura(raiz->dir->esq) > getAltura(raiz->dir->dir))
     {
-        raiz->dir = balancDir(raiz->dir);
+        raiz->dir = balanceDir(raiz->dir);
     }
     comp++;
-    No *tmp = raiz->dir;
-    raiz->dir = tmp->esq;
-    tmp->esq = raiz;
-    return tmp;
+    No *aux = raiz->dir;
+    raiz->dir = aux->esq;
+    aux->esq = raiz;
+    return aux;
 }
 
-No *balancDir(No *raiz)
+No *balanceDir(No *raiz)
 {
     if (getAltura(raiz->esq->dir) > getAltura(raiz->esq->esq))
     {
-        raiz->esq = balancDir(raiz->esq);
+        raiz->esq = balancEsq(raiz->esq);
     }
     comp++;
-    No *tmp = raiz->esq;
-    raiz->esq = tmp->dir;
-    tmp->dir = raiz;
-    return tmp;
+    No *aux = raiz->esq;
+    raiz->esq = aux->dir;
+    aux->dir = raiz;
+    return aux;
 }
 
 No *balancear(No *raiz)
 {
-    int calc = getAltura(raiz->dir) - getAltura(raiz->esq);
-    if (calc > 1)
+    int soma = getAltura(raiz->dir) - getAltura(raiz->esq);
+    if (soma > 1)
     {
+        comp++;
         raiz = balancEsq(raiz);
     }
-    else if (calc < -2)
+    else if (soma < -1)
     {
-        raiz = balancDir(raiz);
+        comp += 2;
+        raiz = balanceDir(raiz);
     }
-
     return raiz;
 }
 
-void balancear2(No *raiz)
+void BalancearCimaBaixo(No *raiz)
 {
-    if (raiz != NULL)
+    if (raiz == NULL)
     {
-        comp++;
-        raiz = balancear(raiz);
-        balancear2(raiz->esq);
-        balancear2(raiz->dir);
+        return;
     }
+    comp++;
+    raiz = balancear(raiz);
+    BalancearCimaBaixo(raiz->esq);
+    BalancearCimaBaixo(raiz->dir);
 }
 
-No *inserir2(No *raiz, Jogador *jogador)
+No *inserirNo(No *raiz, Jogador *jogador)
 {
     if (raiz == NULL)
     {
         comp++;
-        raiz = iniciarRaiz(raiz);
+        raiz = iniciarRaiz(jogador);
     }
-    else if (strcmp(jogador->nome, raiz->elemento->nome) < 0)
+    else if (strcmp(jogador->nome, raiz->jogador->nome) < 0)
     {
         comp += 2;
-        raiz->esq = inserir2(raiz->esq, jogador);
+        raiz->esq = inserirNo(raiz->esq, jogador);
         raiz = balancear(raiz);
     }
     else
     {
         comp += 2;
-        raiz->dir = inserir2(raiz->dir, jogador);
+        raiz->dir = inserirNo(raiz->dir, jogador);
         raiz = balancear(raiz);
     }
-
     return raiz;
 }
 
-void inserir(Arvore *arvore, Jogador jogador)
+void inserir(AVL *arvore, Jogador jogador)
 {
     Jogador *x = (Jogador *)malloc(sizeof(Jogador));
     *x = jogador;
 
-    arvore->raiz = inserir2(arvore->raiz, x);
+    arvore->raiz = inserirNo(arvore->raiz, x);
 }
 
-void pesquisar(No *raiz, char *nome)
+void pesquisarPriv(No *raiz, char *nome)
 {
     if (raiz == NULL)
     {
         comp++;
         printf(" NAO\n");
+        return;
     }
-    else if (strcmp(nome, raiz->elemento->nome) == 0)
+    else if (strcmp(nome, raiz->jogador->nome) == 0)
     {
         comp += 2;
         printf(" SIM\n");
     }
-    else if (strcmp(nome, raiz->elemento->nome) < 0)
+    else if (strcmp(nome, raiz->jogador->nome) < 0)
     {
         comp += 3;
         printf(" esq");
-        pesquisar(raiz->esq, nome);
+        pesquisarPriv(raiz->esq, nome);
     }
     else
     {
         comp += 3;
         printf(" dir");
-        pesquisar(raiz->dir, nome);
+        pesquisarPriv(raiz->dir, nome);
     }
 }
 
-void pesquisar(Arvore *arvore, char *nome)
+void pesquisar(AVL *arvore, char *nome)
 {
     printf("%s raiz", nome);
-    pesquisar(arvore->raiz, nome);
+    pesquisarPriv(arvore->raiz, nome);
 }
 
-// MAIN ------------------------------------------------------------------------------------------------------------
+// MAIN ------------------------------------------------------------------------------------------------------
 clock_t startTime, endTime, tempo;
 
 // criacao do arquivo de log
@@ -304,35 +289,32 @@ void criarLog()
     fclose(arquivo);
 }
 
-int main(void)
+int main()
 {
-    long start = clock();
-    char csvData[600];
-    Jogador jogadores[3922];
-
-    // leitura de arquivo csv
-    // /tmp/
+    char leraq[600];
+    Jogador time[3922];
     FILE *arq = fopen("/tmp/players.csv", "r");
-    fgets(csvData, sizeof(csvData), arq);
-    for (int i = 0; fgets(csvData, 600, arq) != NULL; i++)
+
+    fgets(leraq, sizeof(leraq), arq);
+
+    for (int i = 0; fgets(leraq, 600, arq) != NULL; i++)
     {
-        char *frase = linhaCsv(csvData);
+        char *frase = linhasCsv(leraq);
 
         char dados[8][100];
         split(frase, ',', dados);
         free(frase);
 
-        addJogador(&jogadores[i], dados);
+        addJogador(&time[i], dados);
     }
 
-    Arvore *arvore = malloc(sizeof(Arvore));
-    inicializar(arvore);
+    AVL *arvore = malloc(sizeof(AVL));
+    incializar(arvore);
 
-    // input de jogadores
-    char input[100];
-    for (int i = 0; 1; i++)
+    char input[400];
+    while (true)
     {
-        scanf("%s", input);
+        scanf(" %[^\n]", input);
         if (strcmp(input, "FIM") == 0)
         {
             break;
@@ -340,33 +322,27 @@ int main(void)
         else
         {
             int id = atoi(input);
-            inserir(arvore, jogadores[id]);
+            inserir(arvore, time[id]);
         }
     }
+    input[0] = '\0';
 
-    input[0] = '\0'; // limpeza de buffer
-
-    balancear2(arvore->raiz);
-
-    // selection sort
-    startTime = clock();
+    BalancearCimaBaixo(arvore->raiz);
 
     while (true)
     {
         scanf(" %[^\n]", input);
-        if (strcmp(input, "FIM") == 0) {
+        if (strcmp(input, "FIM") == 0)
+        {
             break;
         }
-        else {
+        else
+        {
             pesquisar(arvore, input);
         }
     }
 
-    endTime = clock();
-    tempo = endTime - startTime;
-
     criarLog();
     fclose(arq);
-
     return 0;
 }
