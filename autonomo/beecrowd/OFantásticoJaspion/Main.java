@@ -30,37 +30,41 @@ public class Main {
 
             String japones[] = new String[palavras + 2];
             String portugues[] = new String[palavras + 2];
-            String musica[] = new String[linhas];
+            String musica = "";
 
             for (int j = 0; j < palavras; j++) {
                 japones[j] = sc.nextLine();
                 portugues[j] = sc.nextLine();
             }
 
+            // quando for "o", imprime "o"
             japones[palavras] = "o";
+            portugues[palavras] = "o";
+
+            // quando for ".", imprime \n
             japones[palavras + 1] = ".";
+            portugues[palavras + 1] = "\n";
 
             for (int j = 0; j < linhas; j++) {
-                musica[j] = sc.nextLine();
+                musica += sc.nextLine();
+                musica += " ";
+                musica += ".";
+                musica += " ";
             }
 
-            String musicaSplit[];
+            String musicaSplit[] = musica.split("\\s+");
+            String solucao = "";
 
-            for (int j = 0; j < linhas; j++) {
-                musicaSplit[j] += musica[j].split(" ");
-            }
-
-            for (int j = 0; j < palavras + 2; j++) {
-                for (String palavra : musicaSplit) {
-                    if (palavra.equals(japones[j])) {
-                        System.out.print(portugues[j] + " ");
-                    } else {
-                        System.out.print(palavra + " ");
+            for (int j = 0; j < musicaSplit.length; j++) {
+                for (int k = 0; k < japones.length; k++) {
+                    if (musicaSplit[j].equals(japones[k])) {
+                        solucao += portugues[k];
+                        solucao +=  " ";
                     }
                 }
             }
-            System.out.println();
 
+            System.out.println(solucao);
         }
 
         sc.close();
