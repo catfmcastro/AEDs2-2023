@@ -1,18 +1,53 @@
-nao atingiu limite - tmp é: 7
-nao atingiu limite - tmp é: 9
-nao atingiu limite - tmp é: 11
-atingiu - tmp é: 7
-nao atingiu limite - tmp é: 7
-nao atingiu limite - tmp é: 9
-nao atingiu limite - tmp é: 11
-nao atingiu limite - tmp é: 7
-nao atingiu limite - tmp é: 9
-nao atingiu limite - tmp é: 5
-nao atingiu limite - tmp é: 12
-nao atingiu limite - tmp é: 8
-atingiu - tmp é: 7
-nao atingiu limite - tmp é: 7
-nao atingiu limite - tmp é: 4
-nao atingiu limite - tmp é: 3
-nao atingiu limite - tmp é: 2
-atingiu - tmp é: 4
+tmp % 2 = 1
+tmp começa em: 9
+tmp é: 9
+tmp é: 11
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp é: 11
+limite anti-horario - tmp é: 7
+tmp % 2 = 1
+tmp começa em: 7
+tmp é: 7
+tmp é: 9
+tmp é: 11
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp é: 11
+tmp % 2 = 1
+tmp começa em: 11
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp é: 11
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp é: 11
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp % 2 = 1
+tmp começa em: 9
+tmp é: 9
+tmp é: 5
+tmp é: 12
+tmp é: 8
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp % 2 = 1
+tmp começa em: 9
+tmp é: 5
+tmp é: 12
+tmp é: 8
+limite anti-horario - tmp é: 7
+tmp é: 7
+tmp é: 9
+tmp é: 5
+tmp é: 12
+tmp é: 8
+tmp % 2 = 0
+tmp começa em: 8

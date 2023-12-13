@@ -33,28 +33,45 @@ public class Main {
                 valor[i] = Integer.parseInt(aux[1]);
             }
 
-            int index = 0;
-            int cont = valor[index];
-            int tmp = valor[index + 1];
+            int index = 1;
+            int cont = valor[index - 1];
+            int tmp = valor[index];
             int restantes = valor.length;
 
             for (int i = 0; i < valor.length; i++) {
-                // if (tmp % 2 == 0) { // contar no sentido horário
-
-                // } else { // contar no sentido anti-horario
-                while (cont > 0) {
-                    if (index > valor.length - 1) {
-                        index = 0;
-                        tmp = valor[0];
-                        System.out.println("atingiu - tmp é: " + tmp);
-                    } else {
-                        tmp = valor[index];
-                        index++;
-                        System.out.println("nao atingiu limite - tmp é: " + tmp);
+                System.out.println("tmp % 2 = " + tmp%2);
+                if (tmp % 2 == 0) { // contar no sentido horário
+                    System.out.println("tmp começa em: " + tmp);
+                    while (cont > 0) {
+                        if (index < 0) {
+                            tmp = valor[valor.length - 1];
+                            index = valor.length - 1;
+                            System.out.println("limite horario - tmp é: " + tmp);
+                        } else {
+                            tmp = valor[index];
+                            index--;
+                            System.out.println("tmp é: " + tmp);
+                        }
+                        cont--;
                     }
-                    cont--;
+                    cont = tmp;
+
+                } else { // contar no sentido anti-horario
+                    System.out.println("tmp começa em: " + tmp);
+                    while (cont > 0) {
+                        if (index > valor.length - 1) {
+                            index = 0;
+                            tmp = valor[0];
+                            System.out.println("limite anti-horario - tmp é: " + tmp);
+                        } else {
+                            tmp = valor[index];
+                            index++;
+                            System.out.println("tmp é: " + tmp);
+                        }
+                        cont--;
+                    }
+                    cont = tmp;
                 }
-                // }
             }
 
         }
